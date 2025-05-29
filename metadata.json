@@ -1,0 +1,8 @@
+{
+  "name": "GiiT Community Chatroom",
+  "description": "A modern community chatroom web application for the Genius Institute of Information Technology (GiiT), featuring AI chatbot integration, content discovery, and collaboration tools.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "prompt": ""
+}
