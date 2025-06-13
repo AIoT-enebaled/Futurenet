@@ -29,12 +29,21 @@ import { NAV_ITEMS, TEAM_ITEMS_DATA, POST_ITEMS_DATA, PROJECT_ITEMS_DATA, MOCK_M
 import { User, Team, Post, Project, AppSettings, SubscriptionTier, MessengerChat, MessengerMessage, Course, CoursePurchase, CourseInstructor, CourseCategory } from './types'; 
 import { checkApiKey } from './services/geminiService'; 
 
-const App: React.FC = () => {
+const App: React.FC<{ auth: import("firebase/auth").Auth }> = ({ auth }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [apiKeyExists, setApiKeyExists] = useState<boolean>(false);
   
   // Centralized state for dynamic data
-  const [teams, setTeams] = useState<Team[]>(TEAM_ITEMS_DATA);
+  const [teams, setTeams] = useState<Team[]>(() => {
+    const storedTeams = localStorage.getItem('giitTeams');
+    try {
+      return storedTeams ? JSON.parse(storedTeams) : TEAM_ITEMS_DATA;
+    } catch (e) {
+      console.error("Error parsing teams from localStorage", e);
+      return TEAM_ITEMS_DATA;
+    }
+  });
+
   const [posts, setPosts] = useState<Post[]>(POST_ITEMS_DATA);
   const [projects, setProjects] = useState<Project[]>(PROJECT_ITEMS_DATA);
 
@@ -50,6 +59,11 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('giitPurchasedCourses', JSON.stringify(purchasedCourses));
   }, [purchasedCourses]);
+
+  // Persist teams to localStorage
+  useEffect(() => {
+    localStorage.setItem('giitTeams', JSON.stringify(teams));
+  }, [teams]);
 
 
   // Messenger State
@@ -401,8 +415,8 @@ const App: React.FC = () => {
             element={currentUser?.role === 'instructor' ? <InstructorDashboardPage currentUser={currentUser} courses={courses} instructors={courseInstructors} onCreateCourse={handleCreateCourseByInstructor} onUpdateCourse={handleUpdateCourse} /> : <Navigate to="/learning" replace />}
           />
 
-          <Route path="/login" element={!currentUser ? <LoginPage onLogin={handleLogin} /> : <Navigate to={currentUser.role === 'admin' && currentUser.is_pro_user ? "/analytics" : "/profile"} replace />} />
-          <Route path="/register" element={!currentUser ? <RegisterPage onRegister={handleRegister} /> : <Navigate to="/profile" replace />} />
+          <Route path="/login" element={!currentUser ? <LoginPage onLogin={handleLogin} auth={auth} /> : <Navigate to={currentUser.role === 'admin' && currentUser.is_pro_user ? "/analytics" : "/profile"} replace />} />
+          <Route path="/register" element={!currentUser ? <RegisterPage onRegister={handleRegister} auth={auth} /> : <Navigate to="/profile" replace />} />
           <Route path="/profile" element={currentUser ? <ProfilePage currentUser={currentUser} /> : <Navigate to="/login" replace />} />
           
           <Route path="*" element={<Navigate to="/home" replace />} />

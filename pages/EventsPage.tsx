@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Event, User } from '../types';
-import { EVENT_ITEMS_DATA } from '../constants';
+// import { EVENT_ITEMS_DATA } from '../constants';
 import { CalendarIcon, PlusCircleIcon, VideoIcon, MapPinIcon, Share2Icon, UsersIcon, LogInIcon } from '../components/icons';
 import Modal from '../components/Modal'; // Import Modal
 
@@ -98,11 +97,23 @@ const secondaryButtonStyles = "flex items-center justify-center bg-brand-surface
 
 
 const EventsPage: React.FC<EventsPageProps> = ({ currentUser }) => {
-  const [events, setEvents] = useState<Event[]>(EVENT_ITEMS_DATA);
+  const [events, setEvents] = useState<Event[]>(() => {
+    const storedEvents = localStorage.getItem('giitEvents');
+    try {
+      return storedEvents ? JSON.parse(storedEvents) : [];
+    } catch (e) {
+      console.error("Error parsing events from localStorage", e);
+      return [];
+    }
+  });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Changed from showCreateForm
   const [newEvent, setNewEvent] = useState<Partial<Event>>({ 
     title: '', description: '', dateTime: '', location: '', meetLink: '', category: 'meeting', attendees: [] 
   });
+
+  useEffect(() => {
+    localStorage.setItem('giitEvents', JSON.stringify(events));
+  }, [events]);
 
   useEffect(() => {
     if (currentUser && isCreateModalOpen) {

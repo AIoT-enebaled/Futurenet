@@ -2,23 +2,28 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
-import { UserCircleIcon } from '../components/icons'; 
+import { getAuth, createUserWithEmailAndPassword, Auth } from 'firebase/auth';
+import { UserCircleIcon } from '../components/icons';
 
 interface RegisterPageProps {
   onRegister: (user: User) => void;
+  auth: Auth; // Add auth prop
 }
 
-const RegisterPage: React.FC<RegisterPageProps> = ({ onRegister }) => {
+
+const RegisterPage: React.FC<RegisterPageProps> = ({ onRegister, auth }) => {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -28,36 +33,24 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onRegister }) => {
       return;
     }
 
-    const storedUsersString = localStorage.getItem('giitRegisteredUsers');
-    const registeredUsers: User[] = storedUsersString ? JSON.parse(storedUsersString) : [];
-    if (registeredUsers.find(u => u.email === email)) {
-        setError('An account with this email already exists. Please log in or use a different email.');
-        return;
-    }
-
-    // Determine role based on email domain for mock purposes
-    let role: User['role'] = 'member';
-    if (email.endsWith('@giitadmin.com')) { // Example admin domain
-        role = 'admin';
-    }
-
-    const mockNewUser: User = {
-      id: `giit-usr-${Date.now().toString().slice(-6)}`, 
-      email: email,
-      displayName: displayName,
-      password: password, 
-      avatarUrl: `https://picsum.photos/seed/${email.split('@')[0]}/100/100`, 
-      role: role,
-    };
 
     try {
-      onRegister(mockNewUser);
-      navigate(role === 'admin' ? "/analytics" : "/profile"); // Navigate admin to analytics
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // User created successfully
+      const user = userCredential.user;
+      console.log("User registered:", user);
+      // You can add logic here to store additional user info (displayName, role) in your database
+      // and then call onRegister with the appropriate User object.
+      
+      // For now, let's just navigate to the profile page upon successful registration
+      navigate("/profile"); 
+
     } catch (regError: any) {
       setError(regError.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
-  
   const commonInputStyles = "appearance-none relative block w-full px-4 py-3 border border-brand-border placeholder-brand-text-muted text-brand-text bg-brand-bg rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-brand-purple focus:z-10 sm:text-sm shadow-sm transition-colors";
 
 

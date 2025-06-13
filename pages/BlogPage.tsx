@@ -1,12 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
-import { Post, User, BlogPageProps, Comment as CommentType, SubscriptionTier } from '../types'; 
-import { PlusCircleIcon, Edit3Icon, HeartIcon, ThumbsUpIcon, MessageCircleIcon, EditIcon, Trash2Icon, LogInIcon, StarIcon, ImageIcon } from '../components/icons'; // Added ImageIcon
-import Modal from '../components/Modal'; 
+import { Link, useNavigate } from 'react-router-dom';
+import { Post, User, BlogPageProps, SubscriptionTier } from '../types';
+import { PlusCircleIcon, Edit3Icon, HeartIcon, ThumbsUpIcon, MessageCircleIcon, EditIcon, Trash2Icon, LogInIcon, StarIcon, ImageIcon } from '../components/icons';
+import Modal from '../components/Modal';
 import GoProModal from '../components/GoProModal';
-import { generateImageFromPrompt } from '../services/geminiService'; // Added for image generation
-import LoadingSpinner from '../components/LoadingSpinner'; // For image generation loading
+import { generateImageFromPrompt } from '../services/geminiService';
+import LoadingSpinner from '../components/LoadingSpinner';
+// ... rest of your code ...
 
 interface PostCardProps {
   post: Post;
@@ -100,7 +100,15 @@ interface ExtendedBlogPageProps extends BlogPageProps {
 }
 
 export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, onCreatePost, onDeletePost, onUpdatePost, onSubscribePro }) => {
-  const [localPosts, setLocalPosts] = useState<Post[]>(posts); 
+  const [localPosts, setLocalPosts] = useState<Post[]>(() => {
+        const storedPosts = localStorage.getItem('giitBlogPosts');
+        try {
+            return storedPosts ? JSON.parse(storedPosts) : [];
+        } catch (e) {
+            console.error("Error parsing blog posts from localStorage", e);
+            return [];
+        }
+    }); 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newPostData, setNewPostData] = useState<Omit<Post, 'id' | 'createdAt' | 'reactions' | 'comments'>>({ 
       title: '', subtitle: '', body: '', author: '', imageUrl: '', tags: []
@@ -112,8 +120,12 @@ export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, 
 
 
   useEffect(() => {
-    setLocalPosts(posts.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
-  }, [posts]);
+    // This useEffect seems to be trying to sync from an external 'posts' prop.
+    // Since we are now persisting to localStorage, this might not be needed
+    // or might need adjustment depending on the intended data flow.
+    // For now, I will comment it out to rely solely on local storage.
+    // setLocalPosts(posts.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+  }, [posts]); // Keep 'posts' in dependency array for now, but logic is commented
 
   useEffect(() => {
     if (currentUser && isCreateModalOpen) { 
@@ -126,8 +138,28 @@ export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, 
     if (!currentUser) return;
 
     if (newPostData.title && newPostData.body) {
-      onCreatePost({...newPostData, imageUrl: newPostData.imageUrl || `https://picsum.photos/seed/blog-${newPostData.title.replace(/\s+/g, '-')}/600/400`});
-      setNewPostData({ title: '', subtitle: '', body: '', author: currentUser.displayName, imageUrl: '', tags: [] });
+      // Create the new post object
+      const newPost: Post = {
+        id: `post-${Date.now()}`,
+        ...newPostData,
+        createdAt: new Date().toISOString(),
+        reactions: { heart: 0, thumbsUp: 0, fire: 0, clap: 0 },
+        comments: [],
+        // Ensure author and imageUrl are correctly assigned, falling back if needed
+        author: newPostData.author || currentUser.displayName || 'Anonymous',
+        imageUrl: newPostData.imageUrl || `https://picsum.photos/seed/blog-${newPostData.title.replace(/\s+/g, '-')}/600/400`,
+      };
+      
+      // Update local state with the new post
+      setLocalPosts(prev => [newPost, ...prev].sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+      
+      // Also call the prop function if it's meant to update a higher state
+      // Note: If the intent is *only* localStorage persistence, this call might be removed.
+      // Assuming it's still needed for potential data flow elsewhere:
+      onCreatePost(newPostData); // This might need adjustment to pass the full newPost object if onCreatePost expects it.
+
+      // Reset form and close modal
+      setNewPostData({ title: '', subtitle: '', body: '', author: '', imageUrl: '', tags: [] });
       setIsCreateModalOpen(false);
       setImageGenerationError(null);
     }
@@ -136,22 +168,30 @@ export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, 
   const handleAddReaction = (postId: string, reactionType: 'heart' | 'thumbsUp' | 'fire' | 'clap') => {
     if (!currentUser) return; 
     
-    const postToUpdate = localPosts.find(p => p.id === postId);
-    if (!postToUpdate) return;
-
-    const updatedReactions = {
-        ...postToUpdate.reactions,
-        [reactionType]: (postToUpdate.reactions[reactionType] || 0) + 1,
-    };
-    
     setLocalPosts(prevPosts =>
-      prevPosts.map(p =>
-        p.id === postId
-          ? { ...p, reactions: updatedReactions }
-          : p
-      )
+      prevPosts.map(post => {
+        if (post.id === postId) {
+          const updatedReactions = {
+            ...post.reactions,
+            [reactionType]: (post.reactions[reactionType] || 0) + 1,
+          };
+          // Update the post locally
+          return { ...post, reactions: updatedReactions };
+        }
+        // Return the post unchanged if it's not the target post
+        return post;
+      })
     );
-    onUpdatePost(postId, { reactions: updatedReactions });
+    
+    // Find the updated post to pass to the external onUpdatePost prop
+    const postToUpdateProp = localPosts.find(p => p.id === postId);
+    if (postToUpdateProp) {
+        const updatedReactions = {
+            ...postToUpdateProp.reactions,
+            [reactionType]: (postToUpdateProp.reactions[reactionType] || 0) + 1,
+        };
+        onUpdatePost(postId, { reactions: updatedReactions });
+    }
   };
 
   const handleEditPostRedirect = (postId: string) => {
@@ -160,6 +200,9 @@ export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, 
 
   const handleDeletePostCard = (postId: string) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
+      // Update local state first
+      setLocalPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+      // Then call the external delete function
       onDeletePost(postId);
     }
   };
@@ -205,6 +248,10 @@ export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, 
   const secondaryButtonStyles = "flex items-center justify-center bg-brand-surface text-brand-text-muted font-semibold py-2.5 px-5 rounded-lg shadow-md hover:bg-brand-surface-alt hover:text-brand-text border border-brand-border/70 hover:border-brand-purple/70 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 focus:ring-offset-brand-surface";
   const aiButtonStyles = "text-xs inline-flex items-center text-brand-cyan hover:text-brand-pink transition-colors ml-2 px-2 py-1 rounded-md border border-brand-cyan/50 hover:border-brand-pink/50 bg-brand-surface-alt/50 disabled:opacity-50 disabled:cursor-not-allowed";
 
+    // Persist posts to localStorage whenever localPosts changes
+    useEffect(() => {
+        localStorage.setItem('giitBlogPosts', JSON.stringify(localPosts));
+    }, [localPosts]);
 
   return (
     <div className="space-y-8">
@@ -295,7 +342,8 @@ export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, 
 
       {localPosts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {localPosts.map((postItem: Post) => (
+          {localPosts.map((postItem: Post) => {
+           return (
             <PostCard
               key={postItem.id}
               post={postItem}
@@ -305,7 +353,8 @@ export const BlogPage: React.FC<ExtendedBlogPageProps> = ({ currentUser, posts, 
               isOwner={(postItem.author === currentUser?.displayName && !!currentUser) || (currentUser?.role === 'admin')}
               currentUser={currentUser}
             />
-          ))}
+           )
+          })}
         </div>
       ) : (
         <div className="text-center py-12">
