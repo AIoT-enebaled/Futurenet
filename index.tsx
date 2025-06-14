@@ -6,16 +6,16 @@ import { getAuth } from "firebase/auth";
 import App from './App';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAHx3LhbqyqlDANJbpos4i-R6NZl1HcbOc",
-  authDomain: "futurenet-a321f.firebaseapp.com",
-  projectId: "futerenetv0",
-  storageBucket: "futerenetv0.firebasestorage.app",
-  messagingSenderId: "520383737800",
-  appId: "1:520383737800:web:e96e4b47b811e6dff45afd",
-  measurementId: "G-D0Y0PQJ3X8"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-const app = initializeApp(firebaseConfig); // Corrected: initializeApp is now imported
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const rootElement = document.getElementById('root');
 if (!rootElement) {
