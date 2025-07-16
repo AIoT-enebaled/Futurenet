@@ -36,7 +36,8 @@ interface DeepSeekChatCompletionResponse {
 }
 
 export const checkApiKey = (): boolean => {
-  return !!DEEPSEEK_API_KEY;
+  // Return true if we have DeepSeek API key OR mock service is available
+  return !!DEEPSEEK_API_KEY || checkMockApiKey();
 };
 
 const GII_T_SYSTEM_INSTRUCTION = `You are a friendly and helpful AI assistant for the Genius Institute of Information Technology (GiiT) community.
