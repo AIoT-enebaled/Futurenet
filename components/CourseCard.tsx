@@ -137,7 +137,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
               </Link>
             ) : (
               <button
-                onClick={() => onEnrollClick(course)}
+                onClick={handleEnrollClick}
                 disabled={
                   !currentUser && course.price > 0 && !course.isProCourse
                 } // Disable if not logged in & paid course & not pro
