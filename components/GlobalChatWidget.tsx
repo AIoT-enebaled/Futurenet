@@ -63,7 +63,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
         },
       ]);
     }
-  }, [apiKeyExists, messages.length, currentUser?.is_pro_user]);
+  }, [apiKeyExists, messages.length, currentUser]);
 
   const handleSendMessage = useCallback(
     async (text: string) => {
