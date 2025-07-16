@@ -239,9 +239,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
                 ? "AI unavailable"
                 : !currentUser
                   ? "Log in to chat..."
-                  : !currentUser.is_pro_user
-                    ? "Upgrade to Pro..."
-                    : "Ask GiiT AI..."
+                  : "Ask GiiT AI..."
             }
             className="flex-grow p-2 bg-transparent text-sm text-brand-text placeholder-brand-text-muted focus:outline-none resize-none max-h-20 scrollbar-thin scrollbar-thumb-brand-border scrollbar-track-transparent"
             rows={1}
