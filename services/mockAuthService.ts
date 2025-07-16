@@ -164,6 +164,13 @@ class MockAuthService {
     return this.currentUser;
   }
 
+  // Ensure initialization has run
+  private ensureInitialized(): void {
+    if (this.getStoredUsers().length === 0) {
+      this.initialize();
+    }
+  }
+
   // Initialize with any existing session
   initialize(): void {
     // Initialize with demo users if none exist
