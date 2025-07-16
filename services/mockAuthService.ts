@@ -59,6 +59,9 @@ class MockAuthService {
     email: string,
     password: string,
   ): Promise<MockUserCredential> {
+    // Ensure initialization has run
+    this.ensureInitialized();
+
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 500));
 
