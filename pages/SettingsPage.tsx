@@ -51,6 +51,44 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     text: string;
   } | null>(null);
 
+  // Account States
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+
+  // Notification States
+  const [notificationSettings, setNotificationSettings] = useState({
+    mentions: true,
+    directMessages: true,
+    teamUpdates: true,
+    projectNotifications: true,
+    emailDigest: true,
+    pushNotifications: true,
+    desktopNotifications: true,
+    messagePreview: true,
+  });
+
+  // Privacy States
+  const [privacySettings, setPrivacySettings] = useState({
+    profileVisibility: "public" as "public" | "team" | "private",
+    onlineStatus: true,
+    readReceipts: true,
+    typingIndicators: true,
+    allowDirectMessages: "everyone" as "everyone" | "team" | "none",
+    searchable: true,
+  });
+
+  // Integration States
+  const [connectedServices, setConnectedServices] = useState({
+    google: false,
+    github: false,
+    slack: false,
+    discord: false,
+  });
+
   useEffect(() => {
     setDisplayName(currentUser.displayName);
     setUsername(currentUser.username || "");
