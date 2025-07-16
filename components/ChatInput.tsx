@@ -76,16 +76,13 @@ const ChatInput: React.FC<ChatInputProps> = ({
           type="button"
           title={
             !canInteract
-              ? "Upgrade to Pro for voice notes"
+              ? "Log in for voice notes"
               : "Record voice note (feature coming soon)"
           }
           className="p-2.5 rounded-full text-brand-text-muted hover:text-brand-cyan hover:bg-brand-surface-alt disabled:text-brand-text-darker disabled:cursor-not-allowed transition-colors"
           disabled={!canInteract || isLoading}
         >
           <MicIcon className="w-5 h-5" />
-          {!isProUser && currentUser && (
-            <StarIcon className="w-2.5 h-2.5 absolute bottom-1 right-1 text-yellow-400" />
-          )}
         </button>
         <textarea
           value={inputValue}
