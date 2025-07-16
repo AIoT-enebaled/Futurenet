@@ -1,115 +1,181 @@
-
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User } from '../types';
-import { LogInIcon } from '../components/icons';
-import { Auth, signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { User } from "../types";
+import { LogInIcon } from "../components/icons";
+import { signInWithEmailAndPassword } from "../services/mockAuthService";
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
-  auth: Auth; // Receive the Firebase Auth instance as a prop
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin, auth }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       setIsLoading(true);
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(email, password);
       const user = userCredential.user;
-      // TODO: Fetch or create user profile in your database to get role, displayName, etc.
-      // For now, we'll use mock user data or data from Firebase Auth
+
+      // Convert mock user to app User type
       const userToLogin: User = {
         id: user.uid,
-        email: user.email || '',
-        displayName: user.displayName || 'New User', // Use Firebase displayName or a default
-        avatarUrl: user.photoURL || 'https://picsum.photos/seed/newUser/100/100', // Use Firebase photoURL or a default
-        role: 'member', // Assign a default role, you'll need logic to determine this
+        email: user.email,
+        displayName: user.displayName,
+        username: user.displayName.toLowerCase().replace(/\s+/g, ""),
+        avatarUrl: user.photoURL || undefined,
+        role: user.email === "admin@example.com" ? "admin" : "member",
+        is_pro_user: user.email === "admin@example.com",
+        pro_expiry_date:
+          user.email === "admin@example.com"
+            ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+            : null,
+        subscribed_tier:
+          user.email === "admin@example.com" ? "pro_individual" : "free",
       };
+
       onLogin(userToLogin);
-      navigate(userToLogin.role === 'admin' ? "/analytics" : "/profile");
+      navigate("/");
     } catch (error: any) {
-      // Improved error handling
-      setError(error.message);
+      console.error("Login error:", error);
+      if (error.message === "auth/user-not-found") {
+        setError("No account found with this email address.");
+      } else if (error.message === "auth/wrong-password") {
+        setError("Incorrect password.");
+      } else {
+        setError("Login failed. Please check your credentials and try again.");
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const commonInputStyles = "appearance-none relative block w-full px-4 py-3 border border-brand-border placeholder-brand-text-muted text-brand-text bg-brand-bg rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-brand-purple focus:z-10 sm:text-sm shadow-sm transition-colors";
+  const handleQuickLogin = (userType: "admin" | "user") => {
+    if (userType === "admin") {
+      setEmail("admin@example.com");
+      setPassword("admin123");
+    } else {
+      setEmail("user@example.com");
+      setPassword("user123");
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 p-8 sm:p-10 bg-brand-surface shadow-2xl rounded-xl border border-brand-border/30">
+    <div className="min-h-screen flex items-center justify-center bg-brand-bg py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
         <div>
-          <LogInIcon className="mx-auto h-12 w-auto text-brand-purple" />
+          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-gradient-purple-pink">
+            <LogInIcon className="h-6 w-6 text-white" />
+          </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-brand-text">
-            Access Your GiiT Account
+            Sign in to your account
           </h2>
+          <p className="mt-2 text-center text-sm text-brand-text-muted">
+            Or{" "}
+            <Link
+              to="/register"
+              className="font-medium text-brand-purple hover:text-brand-pink transition-colors"
+            >
+              create a new account
+            </Link>
+          </p>
         </div>
+
+        {/* Quick Login Demo Buttons */}
+        <div className="bg-brand-surface-alt rounded-lg p-4 space-y-2">
+          <p className="text-sm text-brand-text-muted text-center mb-3">
+            Demo Login:
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => handleQuickLogin("admin")}
+              className="px-3 py-2 text-xs bg-brand-purple text-white rounded hover:bg-brand-purple/80 transition-colors"
+            >
+              Admin Login
+            </button>
+            <button
+              onClick={() => handleQuickLogin("user")}
+              className="px-3 py-2 text-xs bg-brand-cyan text-white rounded hover:bg-brand-cyan/80 transition-colors"
+            >
+              User Login
+            </button>
+          </div>
+        </div>
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && <p className="text-center text-sm text-red-400 bg-red-900/30 p-3 rounded-md border border-red-700/40">{error}</p>}
-          <div className="space-y-4 rounded-md shadow-sm">
+          <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-brand-text mb-1"
+              >
+                Email address
+              </label>
               <input
-                id="email-address"
+                id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
                 required
-                className={commonInputStyles}
-                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="relative block w-full px-3 py-2 border border-brand-border rounded-md placeholder-brand-text-muted text-brand-text bg-brand-bg focus:outline-none focus:ring-brand-purple focus:border-brand-purple focus:z-10 sm:text-sm"
+                placeholder="Enter your email"
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">Password</label>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-brand-text mb-1"
+              >
+                Password
+              </label>
               <input
                 id="password"
                 name="password"
                 type="password"
                 autoComplete="current-password"
                 required
-                className={commonInputStyles}
-                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="relative block w-full px-3 py-2 border border-brand-border rounded-md placeholder-brand-text-muted text-brand-text bg-brand-bg focus:outline-none focus:ring-brand-purple focus:border-brand-purple focus:z-10 sm:text-sm"
+                placeholder="Enter your password"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-sm">
-            <a href="#" title="Password reset (Feature TBD)" className="font-medium text-brand-cyan hover:text-brand-pink transition-colors">
-              Forgot your password?
-            </a>
+          {error && (
+            <div className="rounded-md bg-red-50 p-4 border border-red-200">
+              <div className="text-sm text-red-700">{error}</div>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between">
+            <Link
+              to="/register"
+              className="text-sm text-brand-purple hover:text-brand-pink transition-colors"
+            >
+              Don't have an account?
+            </Link>
           </div>
 
           <div>
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-purple-pink hover:shadow-glow-pink focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 focus:ring-offset-brand-surface transition-all duration-300 transform hover:scale-105 active:scale-100"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-purple-pink hover:shadow-glow-pink focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              {isLoading ? 'Signing In...' : 'Sign in'}
+              {isLoading ? "Signing in..." : "Sign in"}
             </button>
           </div>
-        {error && <p className="mt-4 text-center text-sm text-red-400 bg-red-900/30 p-3 rounded-md border border-red-700/40">{error}</p>}
         </form>
-        <p className="mt-6 text-center text-sm text-brand-text-muted">
-          Don't have an account?{' '}
-          <Link to="/register" className="font-medium text-brand-cyan hover:text-brand-pink transition-colors hover:underline">
-            Create one now
-          </Link>
-        </p>
       </div>
     </div>
   );
