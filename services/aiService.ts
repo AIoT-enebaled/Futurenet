@@ -53,10 +53,10 @@ export const generateBotResponse = async (
   prompt: string,
   chatHistory: ChatMessage[],
 ): Promise<{ text: string; groundingMetadata?: GroundingMetadata }> => {
+  // If no API key, fall back to mock service
   if (!DEEPSEEK_API_KEY) {
-    throw new Error(
-      "DeepSeek API key is not configured. Please contact an administrator.",
-    );
+    console.log("No DeepSeek API key found, using mock AI service");
+    return await generateMockResponse(prompt, chatHistory);
   }
 
   try {
