@@ -71,9 +71,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
           disabled={!canInteract || isLoading}
         >
           <PaperclipIcon className="w-5 h-5" />
-          {!isProUser && currentUser && (
-            <StarIcon className="w-2.5 h-2.5 absolute bottom-1 right-1 text-yellow-400" />
-          )}
         </button>
         <button
           type="button"
