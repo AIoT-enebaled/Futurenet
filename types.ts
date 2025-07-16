@@ -1,11 +1,10 @@
-
 export interface NavItem {
   name: string;
   path: string;
   icon: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode;
   isHome?: boolean;
-  isAuth?: boolean; 
-  isUnauth?: boolean; 
+  isAuth?: boolean;
+  isUnauth?: boolean;
   isInstructor?: boolean; // For instructor-specific nav items
 }
 
@@ -26,18 +25,18 @@ export interface ChatMessage {
   text: string;
   sender: string;
   timestamp: Date;
-  avatar?: string; 
+  avatar?: string;
   imageUrl?: string;
-  fileInfo?: FileInfo; 
-  voiceNoteInfo?: VoiceNoteInfo; 
+  fileInfo?: FileInfo;
+  voiceNoteInfo?: VoiceNoteInfo;
   // FIX: Added isAIMessage property to ChatMessage interface
-  isAIMessage?: boolean; 
+  isAIMessage?: boolean;
 }
 
 export interface DiscoverCategory {
   id: string;
   name: string;
-  icon?: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode; 
+  icon?: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode;
 }
 
 export interface DiscoverItem {
@@ -45,7 +44,7 @@ export interface DiscoverItem {
   title: string;
   description: string;
   imageUrl: string;
-  category: string; 
+  category: string;
   tags?: string[];
   author?: string;
   createdAt?: string;
@@ -68,7 +67,7 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  link?: string; 
+  link?: string;
   imageUrl: string;
   owner: string; // User ID or name
   createdAt: string; // ISO date string
@@ -81,14 +80,14 @@ export interface Comment {
   text: string;
   createdAt: string;
   avatarUrl?: string;
-  replies?: Comment[]; 
+  replies?: Comment[];
 }
 
 export interface Post {
   id: string;
   title: string;
   subtitle?: string;
-  body: string; 
+  body: string;
   imageUrl?: string;
   author: string; // User ID or name
   createdAt: string; // ISO date string
@@ -103,27 +102,27 @@ export interface Post {
 }
 
 export interface TeamMember {
-    id: string; // User ID
-    name: string;
-    avatarUrl?: string;
-    role: 'owner' | 'admin' | 'member';
+  id: string; // User ID
+  name: string;
+  avatarUrl?: string;
+  role: "owner" | "admin" | "member";
 }
 
 export interface Channel {
-    id: string;
-    name: string;
-    type: 'text' | 'voice';
-    unreadCount?: number; 
+  id: string;
+  name: string;
+  type: "text" | "voice";
+  unreadCount?: number;
 }
 
 export interface SharedFile {
-    id: string;
-    name: string;
-    type: string; 
-    size: string; 
-    uploadedBy: string; // User name
-    uploadedAt: string; // ISO date string
-    url?: string; 
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  uploadedBy: string; // User name
+  uploadedAt: string; // ISO date string
+  url?: string;
 }
 
 export interface Team {
@@ -139,19 +138,23 @@ export interface Team {
   files?: SharedFile[];
 }
 
-export type SubscriptionTier = 'free' | 'pro_individual' | 'pro_team' | 'subscription_all_courses';
+export type SubscriptionTier =
+  | "free"
+  | "pro_individual"
+  | "pro_team"
+  | "subscription_all_courses";
 
 export interface User {
-  id: string; 
+  id: string;
   email: string;
   displayName: string;
-  username?: string; 
-  bio?: string; 
+  username?: string;
+  bio?: string;
   avatarUrl?: string;
-  role?: 'admin' | 'member' | 'moderator' | 'instructor'; 
-  password?: string; 
-  is_pro_user?: boolean; 
-  pro_expiry_date?: string | null; 
+  role?: "admin" | "member" | "moderator" | "instructor";
+  password?: string;
+  is_pro_user?: boolean;
+  pro_expiry_date?: string | null;
   subscribed_tier?: SubscriptionTier;
   instructorId?: string; // If user is an instructor, their instructor profile ID
 }
@@ -160,13 +163,13 @@ export interface Event {
   id: string;
   title: string;
   description: string;
-  dateTime: string; 
-  location?: string; 
+  dateTime: string;
+  location?: string;
   meetLink?: string;
-  createdBy: string; 
-  attendees?: string[]; 
+  createdBy: string;
+  attendees?: string[];
   imageUrl?: string;
-  category?: 'workshop' | 'seminar' | 'social' | 'hackathon' | 'meeting';
+  category?: "workshop" | "seminar" | "social" | "hackathon" | "meeting";
 }
 
 // Messenger Types
@@ -175,34 +178,34 @@ export interface MessengerUser {
   name: string;
   avatarUrl: string;
   isOnline?: boolean;
-  lastSeen?: string | Date; 
+  lastSeen?: string | Date;
 }
 
-export type MessageStatus = 'sent' | 'delivered' | 'read';
+export type MessageStatus = "sent" | "delivered" | "read";
 
 export interface MessengerMessage {
   id: string;
   chatId: string;
-  senderId: string; 
+  senderId: string;
   text?: string;
   imageUrl?: string;
   videoUrl?: string;
-  audioUrl?: string; 
+  audioUrl?: string;
   docUrl?: string;
   docName?: string;
   timestamp: Date;
-  status?: MessageStatus; 
-  isAIMessage?: boolean; 
+  status?: MessageStatus;
+  isAIMessage?: boolean;
 }
 
 export interface MessengerChat {
   id: string;
-  type: 'private' | 'group' | 'ai'; 
-  name?: string; 
-  participants: MessengerUser[]; 
+  type: "private" | "group" | "ai";
+  name?: string;
+  participants: MessengerUser[];
   lastMessage?: MessengerMessage;
   unreadCount?: number;
-  avatarUrl?: string; 
+  avatarUrl?: string;
   isMuted?: boolean;
   typing?: TypingIndicator[];
 }
@@ -214,7 +217,7 @@ export interface TypingIndicator {
 
 // App Settings
 export interface AppSettings {
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
   notificationSounds: boolean;
 }
 
@@ -222,7 +225,12 @@ export interface AppSettings {
 export interface TeamsPageProps {
   currentUser: User | null;
   teams: Team[];
-  onCreateTeam: (teamData: Omit<Team, 'id' | 'createdAt' | 'membersCount' | 'members' | 'channels' | 'files'>) => void;
+  onCreateTeam: (
+    teamData: Omit<
+      Team,
+      "id" | "createdAt" | "membersCount" | "members" | "channels" | "files"
+    >,
+  ) => void;
 }
 
 export interface SingleTeamPageProps {
@@ -235,9 +243,11 @@ export interface SingleTeamPageProps {
 export interface BlogPageProps {
   currentUser: User | null;
   posts: Post[];
-  onCreatePost: (postData: Omit<Post, 'id' | 'createdAt' | 'reactions' | 'comments'>) => void;
-  onDeletePost: (postId: string) => void; 
-  onUpdatePost: (postId: string, updatedData: Partial<Post>) => void; 
+  onCreatePost: (
+    postData: Omit<Post, "id" | "createdAt" | "reactions" | "comments">,
+  ) => void;
+  onDeletePost: (postId: string) => void;
+  onUpdatePost: (postId: string, updatedData: Partial<Post>) => void;
 }
 
 export interface SinglePostPageProps {
@@ -250,38 +260,48 @@ export interface SinglePostPageProps {
 export interface ProjectsPageProps {
   currentUser: User | null;
   projects: Project[];
-  onCreateProject: (projectData: Omit<Project, 'id' | 'createdAt'>) => void;
+  onCreateProject: (projectData: Omit<Project, "id" | "createdAt">) => void;
   onUpdateProject: (projectId: string, updatedData: Partial<Project>) => void;
   onDeleteProject: (projectId: string) => void;
 }
 
 export interface SettingsPageProps {
-  currentUser: User; 
-  onUpdateUser: (updatedUserData: Partial<Omit<User, 'id' | 'role' | 'password'>>) => void;
+  currentUser: User;
+  onUpdateUser: (
+    updatedUserData: Partial<Omit<User, "id" | "role" | "password">>,
+  ) => void;
   appSettings: AppSettings;
   onUpdateAppSettings: (updatedSettings: Partial<AppSettings>) => void;
 }
 
 export interface SubscriptionPageProps {
-    currentUser: User;
-    onCancelPro: () => void; 
-    teams: Team[]; 
-    onUpdateTeamMemberProStatus?: (teamId: string, memberId: string, isPro: boolean) => void; 
+  currentUser: User;
+  onCancelPro: () => void;
+  teams: Team[];
+  onUpdateTeamMemberProStatus?: (
+    teamId: string,
+    memberId: string,
+    isPro: boolean,
+  ) => void;
 }
 
 export interface PricingTier {
-    name: string;
-    priceMonthly: string;
-    priceAnnually?: string;
-    features: string[];
-    ctaText: string;
-    tierId: SubscriptionTier | 'contact_sales' | 'subscription_all_courses';
-    isPopular?: boolean;
-    annualDiscountText?: string;
+  name: string;
+  priceMonthly: string;
+  priceAnnually?: string;
+  features: string[];
+  ctaText: string;
+  tierId: SubscriptionTier | "contact_sales" | "subscription_all_courses";
+  isPopular?: boolean;
+  annualDiscountText?: string;
 }
 
 // Learning Platform Types
-export type CourseDifficulty = 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
+export type CourseDifficulty =
+  | "Beginner"
+  | "Intermediate"
+  | "Advanced"
+  | "All Levels";
 
 export interface CourseCategory {
   id: string;
@@ -316,13 +336,13 @@ export interface CourseModule {
 }
 
 export interface CourseReview {
-    id: string;
-    userId: string;
-    userName: string;
-    userAvatar?: string;
-    rating: number; // 1-5
-    comment: string;
-    createdAt: string; // ISO Date
+  id: string;
+  userId: string;
+  userName: string;
+  userAvatar?: string;
+  rating: number; // 1-5
+  comment: string;
+  createdAt: string; // ISO Date
 }
 
 export interface Course {
@@ -330,8 +350,8 @@ export interface Course {
   title: string;
   subtitle?: string;
   description: string;
-  instructorId: string; 
-  categoryIds: string[]; 
+  instructorId: string;
+  categoryIds: string[];
   difficulty: CourseDifficulty;
   durationHours: number; // Total course duration
   price: number; // 0 for free
@@ -350,13 +370,13 @@ export interface Course {
   // publishedAt?: string; // ISO Date
 }
 
-export interface CoursePurchase { // Mock structure
+export interface CoursePurchase {
+  // Mock structure
   courseId: string;
   userId: string;
   purchasedAt: string; // ISO Date
   // accessExpiresAt?: string; // For time-limited access
 }
-
 
 export interface LearningPageProps {
   currentUser: User | null;
@@ -382,9 +402,90 @@ export interface MyCoursesPageProps {
 }
 
 export interface InstructorDashboardPageProps {
-    currentUser: User; // Must be an instructor
-    courses: Course[];
-    instructors: CourseInstructor[];
-    onCreateCourse: (newCourse: Omit<Course, 'id' | 'rating' | 'reviewsCount' | 'reviews'>) => void;
-    onUpdateCourse: (courseId: string, updatedData: Partial<Course>) => void;
+  currentUser: User; // Must be an instructor
+  courses: Course[];
+  instructors: CourseInstructor[];
+  onCreateCourse: (
+    newCourse: Omit<Course, "id" | "rating" | "reviewsCount" | "reviews">,
+  ) => void;
+  onUpdateCourse: (courseId: string, updatedData: Partial<Course>) => void;
+}
+
+// Live Classroom Types
+export interface LiveClass {
+  id: string;
+  courseId: string;
+  title: string;
+  description: string;
+  instructorId: string;
+  scheduledAt: string; // ISO string
+  durationMinutes: number;
+  status: "scheduled" | "live" | "completed" | "cancelled";
+  meetingUrl?: string;
+  maxAttendees?: number;
+  attendees: ClassAttendee[];
+  recordings?: ClassRecording[];
+  materials?: ClassMaterial[];
+  chatMessages?: ChatMessage[];
+  isRecorded: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ClassAttendee {
+  userId: string;
+  joinedAt?: string;
+  leftAt?: string;
+  status: "invited" | "joined" | "left" | "absent";
+  role: "student" | "instructor" | "assistant";
+}
+
+export interface ClassRecording {
+  id: string;
+  title: string;
+  recordingUrl: string;
+  duration: number;
+  recordedAt: string;
+  fileSize: number;
+}
+
+export interface ClassMaterial {
+  id: string;
+  title: string;
+  type: "document" | "presentation" | "image" | "video" | "link";
+  url: string;
+  uploadedAt: string;
+  uploadedBy: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  userId: string;
+  userName: string;
+  message: string;
+  timestamp: string;
+  type: "text" | "system" | "private";
+  targetUserId?: string; // For private messages
+}
+
+export interface LiveClassroomPageProps {
+  currentUser: User;
+  liveClass: LiveClass;
+  onSendMessage: (message: string, targetUserId?: string) => void;
+  onUpdateClassStatus: (classId: string, status: LiveClass["status"]) => void;
+  onUploadMaterial: (
+    material: Omit<ClassMaterial, "id" | "uploadedAt" | "uploadedBy">,
+  ) => void;
+}
+
+export interface ScheduleClassModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  courseId: string;
+  onScheduleClass: (
+    classData: Omit<
+      LiveClass,
+      "id" | "status" | "attendees" | "createdAt" | "updatedAt"
+    >,
+  ) => void;
 }
