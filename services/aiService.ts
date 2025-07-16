@@ -12,9 +12,9 @@ interface DeepSeekMessage {
 
 const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
 
-// Check if any AI service is available
+// Check if any AI service is available (prioritize Gemini)
 export const checkApiKey = (): boolean => {
-  return !!DEEPSEEK_API_KEY || checkGeminiApiKey();
+  return checkGeminiApiKey() || !!DEEPSEEK_API_KEY;
 };
 
 // Convert ChatMessage history to DeepSeek format
