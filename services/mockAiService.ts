@@ -2,14 +2,14 @@ import { ChatMessage, GroundingMetadata } from "../types";
 
 // Mock AI responses for when the real API is unavailable
 const MOCK_RESPONSES = [
-  "Hello! I'm GiiT AI Assistant. While I'm currently running in demo mode, I'm here to help you with questions about GiiT, technology, and general assistance. ✨",
-  "That's a great question! While I'm currently in demo mode due to API limitations, I'd be happy to help you explore GiiT's features and resources.",
-  "I understand you're looking for information. In demo mode, I can provide general guidance about GiiT's platform and help navigate the community features.",
-  "Thanks for reaching out! I'm currently running in demo mode, but I can still assist with general questions about technology, programming, and the GiiT community.",
-  "Interesting! While my full AI capabilities are temporarily limited, I can help guide you through GiiT's learning platform and community features.",
-  "I appreciate your question! Currently running in demo mode, but I'm still here to help with navigation, basic queries, and information about GiiT's offerings.",
-  "Great to chat with you! I'm in demo mode right now, but I can still provide guidance on using GiiT's features, finding resources, and connecting with the community.",
-  "Hello there! While I'm operating in demo mode due to API limitations, I can still help with basic questions about GiiT and general technology topics.",
+  "Hello! I'm GiiT AI Assistant. I'm currently running in demo mode due to temporary API billing issues, but I'm here to help you explore GiiT's features and answer questions about technology! ✨",
+  "That's a great question! While I'm in demo mode right now, I can help you navigate GiiT's learning platform, discover courses, and connect with the community.",
+  "Thanks for reaching out! I'm operating in demo mode temporarily, but I can still assist with questions about GiiT's courses, projects, teams, and general programming topics.",
+  "Hello there! I'm currently in demo mode while we resolve some API billing, but I'm excited to help you make the most of the GiiT platform and community features.",
+  "Great to chat with you! While my advanced AI features are temporarily in demo mode, I can still guide you through GiiT's resources and help with basic questions.",
+  "I appreciate you asking! Currently running in demo mode due to API limitations, but I'm still here to help you explore what GiiT has to offer.",
+  "Interesting question! While I'm in demo mode right now, I can provide guidance on using GiiT's learning tools, joining teams, and participating in the community.",
+  "Hello! I'm operating in demo mode temporarily, but I can still help you discover GiiT's courses, share project ideas, and learn about our community features.",
 ];
 
 const CONTEXT_RESPONSES: Record<string, string[]> = {
