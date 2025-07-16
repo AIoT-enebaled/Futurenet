@@ -161,6 +161,17 @@ const CourseCard: React.FC<CourseCardProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {currentUser && (
+        <CoursePaymentModal
+          isOpen={isPaymentModalOpen}
+          onClose={() => setIsPaymentModalOpen(false)}
+          course={course}
+          currentUser={currentUser}
+          onPurchaseComplete={handlePurchaseComplete}
+        />
+      )}
     </div>
   );
 };
