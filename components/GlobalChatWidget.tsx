@@ -169,32 +169,30 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
         </button>
       </header>
 
-      
-        <div className="flex-1 overflow-y-auto p-3 space-y-2.5 scrollbar-thin scrollbar-thumb-brand-border scrollbar-track-transparent">
-          {messages.map((msg) => (
-            <ChatMessage
-              key={msg.id}
-              message={msg}
-              groundingMetadata={groundingMetadatas[msg.id]}
-            />
-          ))}
-          {isLoading && apiKeyExists && (currentUser || !currentUser) && (
-            <div className="flex justify-start mb-3">
-              <div className="flex items-end gap-2">
-                <img
-                  src={BOT_AVATAR_URL}
-                  alt="bot avatar"
-                  className="w-6 h-6 rounded-full border-2 border-brand-surface object-cover"
-                />
-                <div className="px-3 py-1.5 rounded-xl shadow-lg bg-brand-surface-alt">
-                  <LoadingSpinner size="sm" message="Thinking..." />
-                </div>
+      <div className="flex-1 overflow-y-auto p-3 space-y-2.5 scrollbar-thin scrollbar-thumb-brand-border scrollbar-track-transparent">
+        {messages.map((msg) => (
+          <ChatMessage
+            key={msg.id}
+            message={msg}
+            groundingMetadata={groundingMetadatas[msg.id]}
+          />
+        ))}
+        {isLoading && apiKeyExists && (currentUser || !currentUser) && (
+          <div className="flex justify-start mb-3">
+            <div className="flex items-end gap-2">
+              <img
+                src={BOT_AVATAR_URL}
+                alt="bot avatar"
+                className="w-6 h-6 rounded-full border-2 border-brand-surface object-cover"
+              />
+              <div className="px-3 py-1.5 rounded-xl shadow-lg bg-brand-surface-alt">
+                <LoadingSpinner size="sm" message="Thinking..." />
               </div>
             </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-      )}
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
 
       {error && apiKeyExists && currentUser?.is_pro_user && (
         <div className="p-2.5 bg-red-900/40 border-t border-red-700/40">
