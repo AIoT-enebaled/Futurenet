@@ -159,6 +159,35 @@ class MockAuthService {
 
   // Initialize with any existing session
   initialize(): void {
+    // Initialize with demo users if none exist
+    const storedUsers = this.getStoredUsers();
+    if (storedUsers.length === 0) {
+      const demoUsers = [
+        {
+          uid: "admin-user-123",
+          email: "admin@example.com",
+          password: "admin123",
+          displayName: "Admin User",
+          photoURL: undefined,
+        },
+        {
+          uid: "regular-user-456",
+          email: "user@example.com",
+          password: "user123",
+          displayName: "Demo User",
+          photoURL: undefined,
+        },
+        {
+          uid: "instructor-user-789",
+          email: "instructor@example.com",
+          password: "instructor123",
+          displayName: "Instructor User",
+          photoURL: undefined,
+        },
+      ];
+      localStorage.setItem("mockUsers", JSON.stringify(demoUsers));
+    }
+
     // Check if there's a stored session
     const sessionUser = localStorage.getItem("mockAuthSession");
     if (sessionUser) {
