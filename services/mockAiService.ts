@@ -14,7 +14,7 @@ const MOCK_RESPONSES = [
 
 const CONTEXT_RESPONSES: Record<string, string[]> = {
   greeting: [
-    "Hello! Welcome to GiiT - the Genius Institute of Information Technology! 🎓 I'm currently in demo mode due to temporary API billing, but I'm excited to help you explore our amazing community platform. What would you like to know about?",
+    "Hello! Welcome to GiiT - the Genius Institute of Information Technology! ���� I'm currently in demo mode due to temporary API billing, but I'm excited to help you explore our amazing community platform. What would you like to know about?",
     "Hi there! Great to see you on GiiT! ✨ While I'm running in demo mode temporarily, I can help you discover our courses, join discussions, find teams, and make the most of our learning community!",
     "Welcome to GiiT! I'm your AI Assistant, currently operating in demo mode while we resolve some API billing. Ready to help you navigate our courses, community features, and learning resources!",
   ],
@@ -24,9 +24,9 @@ const CONTEXT_RESPONSES: Record<string, string[]> = {
     "Happy to help! In demo mode, I can provide guidance on using GiiT's tools, accessing resources, and participating in the community.",
   ],
   courses: [
-    "GiiT offers a variety of courses in technology and programming! While I'm in demo mode, you can explore the Learning section to see available courses.",
-    "Our courses cover web development, AI, data science, and more! Check out the Learning page to browse all available options.",
-    "GiiT's learning platform has courses for all skill levels. Visit the Learning section to find courses that match your interests!",
+    "GiiT offers an amazing variety of courses! 📚 We have web development (React, Node.js), mobile development, AI/ML, data science, cybersecurity, and more. Check out the Learning section to explore courses for all skill levels!",
+    "Our course catalog is fantastic! You'll find everything from beginner-friendly programming basics to advanced topics like machine learning and cloud computing. Head to the Learning page to browse by category or difficulty level.",
+    "Whether you're just starting out or looking to advance your skills, GiiT has something for you! We offer courses in JavaScript, Python, databases, DevOps, and cutting-edge technologies. Visit the Learning section to get started!",
   ],
   community: [
     "The GiiT community is amazing! You can join discussions, share projects, and connect with fellow learners. Check out the Teams and Projects sections!",
