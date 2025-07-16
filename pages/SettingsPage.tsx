@@ -385,9 +385,186 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         );
       case "account":
         return (
-          <div className="text-brand-text-muted">
-            Account management options (change password, 2FA, delete account)
-            will be here. Mock UI for now.
+          <div className="space-y-8">
+            {/* Password Change Section */}
+            <div>
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <KeyIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Change Password
+              </h3>
+              <form
+                onSubmit={handlePasswordChange}
+                className="space-y-4 max-w-md"
+              >
+                <div>
+                  <label
+                    htmlFor="currentPassword"
+                    className="block text-sm font-medium text-brand-text-muted mb-1"
+                  >
+                    Current Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showCurrentPassword ? "text" : "password"}
+                      id="currentPassword"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      required
+                      className={commonInputStyles}
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowCurrentPassword(!showCurrentPassword)
+                      }
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-brand-text-muted hover:text-brand-text"
+                    >
+                      {showCurrentPassword ? (
+                        <EyeOffIcon className="w-4 h-4" />
+                      ) : (
+                        <EyeIcon className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="newPassword"
+                    className="block text-sm font-medium text-brand-text-muted mb-1"
+                  >
+                    New Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showNewPassword ? "text" : "password"}
+                      id="newPassword"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      required
+                      className={commonInputStyles}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-brand-text-muted hover:text-brand-text"
+                    >
+                      {showNewPassword ? (
+                        <EyeOffIcon className="w-4 h-4" />
+                      ) : (
+                        <EyeIcon className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="confirmPassword"
+                    className="block text-sm font-medium text-brand-text-muted mb-1"
+                  >
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    className={commonInputStyles}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-brand-purple hover:bg-brand-purple/80 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  Update Password
+                </button>
+              </form>
+            </div>
+
+            {/* Two-Factor Authentication */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <SmartphoneIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Two-Factor Authentication
+              </h3>
+              <div className="flex items-center justify-between p-4 bg-brand-bg rounded-lg border border-brand-border/40 max-w-md">
+                <div>
+                  <p className="text-sm font-medium text-brand-text">
+                    Enable 2FA
+                  </p>
+                  <p className="text-xs text-brand-text-muted">
+                    Add an extra layer of security
+                  </p>
+                </div>
+                <label
+                  htmlFor="twoFactorToggle"
+                  className="relative inline-flex items-center cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    id="twoFactorToggle"
+                    className="sr-only peer"
+                    checked={twoFactorEnabled}
+                    onChange={() => setTwoFactorEnabled(!twoFactorEnabled)}
+                  />
+                  <div className="w-11 h-6 bg-brand-border peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand-purple rounded-full peer dark:bg-brand-border peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-brand-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-brand-border peer-checked:bg-brand-purple"></div>
+                </label>
+              </div>
+              {twoFactorEnabled && (
+                <div className="mt-4 p-4 bg-brand-surface rounded-lg border border-brand-border/40 max-w-md">
+                  <p className="text-sm text-brand-text-muted">
+                    2FA is enabled. Download an authenticator app and scan the
+                    QR code to complete setup.
+                  </p>
+                  <button className="mt-2 text-brand-cyan hover:underline text-sm">
+                    Setup Authenticator App
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Account Actions */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <DatabaseIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Account Actions
+              </h3>
+              <div className="space-y-4 max-w-md">
+                <button
+                  onClick={handleDataExport}
+                  className="flex items-center justify-between w-full p-4 bg-brand-bg rounded-lg border border-brand-border/40 hover:bg-brand-surface-alt transition-colors"
+                >
+                  <div className="flex items-center">
+                    <DownloadIcon className="w-5 h-5 mr-3 text-brand-cyan" />
+                    <div className="text-left">
+                      <p className="text-sm font-medium text-brand-text">
+                        Export Data
+                      </p>
+                      <p className="text-xs text-brand-text-muted">
+                        Download all your data
+                      </p>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={handleAccountDeletion}
+                  className="flex items-center justify-between w-full p-4 bg-red-900/20 rounded-lg border border-red-700/40 hover:bg-red-900/30 transition-colors"
+                >
+                  <div className="flex items-center">
+                    <TrashIcon className="w-5 h-5 mr-3 text-red-400" />
+                    <div className="text-left">
+                      <p className="text-sm font-medium text-red-300">
+                        Delete Account
+                      </p>
+                      <p className="text-xs text-red-400">
+                        Permanently delete your account
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
         );
       case "notifications":
