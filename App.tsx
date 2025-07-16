@@ -858,6 +858,38 @@ const App: React.FC = () => {
               )
             }
           />
+          <Route
+            path="/learning/course-management"
+            element={
+              currentUser?.role === "instructor" ? (
+                <CoursesManagementPage
+                  currentUser={currentUser}
+                  courses={courses}
+                  liveClasses={liveClasses}
+                  onScheduleClass={handleScheduleClass}
+                  onUpdateCourse={handleUpdateCourse}
+                />
+              ) : (
+                <Navigate to="/learning" replace />
+              )
+            }
+          />
+          <Route
+            path="/learning/live-class/:classId"
+            element={
+              currentUser ? (
+                <LiveClassroomPage
+                  currentUser={currentUser}
+                  liveClasses={liveClasses}
+                  onSendMessage={handleSendClassMessage}
+                  onUpdateClassStatus={handleUpdateClassStatus}
+                  onUploadMaterial={handleUploadClassMaterial}
+                />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
 
           <Route
             path="/login"
