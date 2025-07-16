@@ -62,8 +62,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   const handleQuickLogin = (userType: "admin" | "user") => {
     if (userType === "admin") {
-      setEmail("admin@example.com");
-      setPassword("admin123");
+      setEmail("walkerchristopherr549@gmail.com");
+      setPassword("admin@giit");
     } else {
       setEmail("user@example.com");
       setPassword("user123");
