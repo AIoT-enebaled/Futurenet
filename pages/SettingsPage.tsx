@@ -1014,9 +1014,210 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         );
       case "admin":
         return currentUser.role === "admin" ? (
-          <div className="text-brand-text-muted">
-            Admin-specific controls (audit logs, user reports) will be here.
-            Mock UI for now.
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <ActivityIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                User Management
+              </h3>
+              <p className="text-brand-text-muted mb-6">
+                Monitor and manage user accounts across the platform.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <h4 className="text-sm font-medium text-brand-text mb-2">
+                    Total Users
+                  </h4>
+                  <p className="text-2xl font-bold text-brand-purple">1,247</p>
+                  <p className="text-xs text-green-400 mt-1">+12 this week</p>
+                </div>
+
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <h4 className="text-sm font-medium text-brand-text mb-2">
+                    Active Users
+                  </h4>
+                  <p className="text-2xl font-bold text-brand-cyan">892</p>
+                  <p className="text-xs text-green-400 mt-1">
+                    +5% from last week
+                  </p>
+                </div>
+
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <h4 className="text-sm font-medium text-brand-text mb-2">
+                    Pro Users
+                  </h4>
+                  <p className="text-2xl font-bold text-brand-pink">156</p>
+                  <p className="text-xs text-green-400 mt-1">+8 this month</p>
+                </div>
+              </div>
+
+              <div className="flex space-x-4">
+                <button className="bg-brand-purple hover:bg-brand-purple/80 text-white px-4 py-2 rounded-lg transition-colors">
+                  View All Users
+                </button>
+                <button className="bg-brand-surface border border-brand-border text-brand-text hover:bg-brand-surface-alt px-4 py-2 rounded-lg transition-colors">
+                  Export User Data
+                </button>
+              </div>
+            </div>
+
+            {/* System Monitoring */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <DatabaseIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                System Monitoring
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <h4 className="text-sm font-medium text-brand-text mb-2">
+                    Server Status
+                  </h4>
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
+                    <p className="text-sm text-green-400">
+                      All systems operational
+                    </p>
+                  </div>
+                  <p className="text-xs text-brand-text-muted mt-1">
+                    Last updated: 2 minutes ago
+                  </p>
+                </div>
+
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <h4 className="text-sm font-medium text-brand-text mb-2">
+                    Database Health
+                  </h4>
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
+                    <p className="text-sm text-green-400">Healthy</p>
+                  </div>
+                  <p className="text-xs text-brand-text-muted mt-1">
+                    Response time: 45ms
+                  </p>
+                </div>
+              </div>
+
+              <button className="text-brand-cyan hover:underline text-sm">
+                View Detailed System Metrics
+              </button>
+            </div>
+
+            {/* Audit Logs */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <ClockIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Recent Activity
+              </h3>
+
+              <div className="space-y-3">
+                {[
+                  {
+                    action: "User john.doe@example.com logged in",
+                    time: "2 minutes ago",
+                    type: "login",
+                  },
+                  {
+                    action: "Admin updated user permissions for team Alpha",
+                    time: "15 minutes ago",
+                    type: "admin",
+                  },
+                  {
+                    action: "New user registered: jane.smith@example.com",
+                    time: "1 hour ago",
+                    type: "signup",
+                  },
+                  {
+                    action: 'Team Beta created new project "Mobile App"',
+                    time: "2 hours ago",
+                    type: "project",
+                  },
+                  {
+                    action: "System backup completed successfully",
+                    time: "6 hours ago",
+                    type: "system",
+                  },
+                ].map((log, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-brand-bg rounded border border-brand-border/40"
+                  >
+                    <div className="flex items-center">
+                      <div
+                        className={`w-2 h-2 rounded-full mr-3 ${
+                          log.type === "login"
+                            ? "bg-green-400"
+                            : log.type === "admin"
+                              ? "bg-brand-purple"
+                              : log.type === "signup"
+                                ? "bg-brand-cyan"
+                                : log.type === "project"
+                                  ? "bg-brand-pink"
+                                  : "bg-brand-text-muted"
+                        }`}
+                      ></div>
+                      <p className="text-sm text-brand-text">{log.action}</p>
+                    </div>
+                    <p className="text-xs text-brand-text-muted">{log.time}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 flex space-x-4">
+                <button className="text-brand-cyan hover:underline text-sm">
+                  View Full Audit Log
+                </button>
+                <button className="text-brand-cyan hover:underline text-sm">
+                  Export Logs
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4">
+                Quick Actions
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button className="p-4 bg-brand-bg rounded-lg border border-brand-border/40 hover:bg-brand-surface-alt transition-colors text-left">
+                  <h4 className="text-sm font-medium text-brand-text mb-1">
+                    Send Announcement
+                  </h4>
+                  <p className="text-xs text-brand-text-muted">
+                    Broadcast a message to all users
+                  </p>
+                </button>
+
+                <button className="p-4 bg-brand-bg rounded-lg border border-brand-border/40 hover:bg-brand-surface-alt transition-colors text-left">
+                  <h4 className="text-sm font-medium text-brand-text mb-1">
+                    Manage Teams
+                  </h4>
+                  <p className="text-xs text-brand-text-muted">
+                    View and moderate team activities
+                  </p>
+                </button>
+
+                <button className="p-4 bg-brand-bg rounded-lg border border-brand-border/40 hover:bg-brand-surface-alt transition-colors text-left">
+                  <h4 className="text-sm font-medium text-brand-text mb-1">
+                    System Settings
+                  </h4>
+                  <p className="text-xs text-brand-text-muted">
+                    Configure platform-wide settings
+                  </p>
+                </button>
+
+                <button className="p-4 bg-brand-bg rounded-lg border border-brand-border/40 hover:bg-brand-surface-alt transition-colors text-left">
+                  <h4 className="text-sm font-medium text-brand-text mb-1">
+                    Generate Reports
+                  </h4>
+                  <p className="text-xs text-brand-text-muted">
+                    Create detailed analytics reports
+                  </p>
+                </button>
+              </div>
+            </div>
           </div>
         ) : null;
       default:
