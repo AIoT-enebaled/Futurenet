@@ -9,6 +9,8 @@ import {
 } from "../types";
 import MessengerMessageDisplay from "./MessengerMessageDisplay";
 import MessengerInput from "./MessengerInput";
+import VirtualizedMessageList from "./VirtualizedMessageList";
+import MessageSearchModal from "./MessageSearchModal";
 import {
   PhoneIcon,
   VideoIcon as VideoCallIcon,
