@@ -17,6 +17,9 @@ import {
   DotIcon,
   ChevronLeftIcon,
   CircleIcon,
+  SearchIcon,
+  MoreVerticalIcon,
+  XIcon,
 } from "./icons";
 import { MOCK_MESSENGER_USERS, BOT_AVATAR_URL } from "../constants";
 import { generateBotResponse } from "../services/geminiService";
