@@ -44,12 +44,21 @@ You can use emojis sparingly to make the conversation more engaging. ✨`,
   return messages;
 };
 
-// Main AI response function that prioritizes Deepseek
+// Main AI response function that prioritizes Gemini over Deepseek
 export const generateBotResponse = async (
   prompt: string,
   chatHistory: ChatMessage[],
 ): Promise<{ text: string; groundingMetadata?: GroundingMetadata }> => {
-  // Try Deepseek first
+  // Try Gemini first
+  if (checkGeminiApiKey()) {
+    try {
+      return await generateGeminiResponse(prompt, chatHistory);
+    } catch (error) {
+      console.warn("Gemini failed, trying fallback to Deepseek:", error);
+    }
+  }
+
+  // Fallback to Deepseek if Gemini fails or is not available
   if (DEEPSEEK_API_KEY) {
     try {
       const messages = convertChatHistoryToDeepSeek(chatHistory);
@@ -67,15 +76,6 @@ export const generateBotResponse = async (
       ) {
         return { text: response };
       }
-    } catch (error) {
-      console.warn("Deepseek failed, trying fallback to Gemini:", error);
-    }
-  }
-
-  // Fallback to Gemini if Deepseek fails or is not available
-  if (checkGeminiApiKey()) {
-    try {
-      return await generateGeminiResponse(prompt, chatHistory);
     } catch (error) {
       console.error("Both AI services failed:", error);
       throw new Error(
