@@ -83,9 +83,11 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
         return;
       }
 
-      if (!apiKeyExists || !currentUser || !currentUser.is_pro_user) {
-        // Not Pro
-        setIsGoProModalOpen(true);
+      if (!apiKeyExists || !currentUser) {
+        // Not logged in
+        if (!currentUser) {
+          alert("Please log in to use the AI chat.");
+        }
         return;
       }
 
