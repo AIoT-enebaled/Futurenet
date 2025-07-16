@@ -243,7 +243,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
             }
             className="flex-grow p-2 bg-transparent text-sm text-brand-text placeholder-brand-text-muted focus:outline-none resize-none max-h-20 scrollbar-thin scrollbar-thumb-brand-border scrollbar-track-transparent"
             rows={1}
-            disabled={!apiKeyExists || isLoading || !currentUser?.is_pro_user}
+            disabled={!apiKeyExists || isLoading || !currentUser}
             style={{ caretColor: "var(--tw-color-brand-purple)" }}
             aria-label="Chat message input for GiiT AI Assistant"
           />
