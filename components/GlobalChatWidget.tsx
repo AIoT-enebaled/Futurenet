@@ -9,7 +9,7 @@ import {
   User,
   SubscriptionTier,
 } from "../types";
-import { generateBotResponse } from "../services/geminiService";
+import { generateBotResponse } from "../services/aiService";
 import { SendIcon, XIcon, MessageSquareIcon, StarIcon } from "./icons";
 import { BOT_AVATAR_URL } from "../constants";
 
