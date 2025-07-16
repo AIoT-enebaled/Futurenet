@@ -165,9 +165,9 @@ class MockAuthService {
       const demoUsers = [
         {
           uid: "admin-user-123",
-          email: "admin@example.com",
-          password: "admin123",
-          displayName: "Admin User",
+          email: "walkerchristopherr549@gmail.com",
+          password: "admin@giit",
+          displayName: "Chris R Walker",
           photoURL: undefined,
         },
         {
