@@ -169,23 +169,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
         </button>
       </header>
 
-      {!currentUser?.is_pro_user && apiKeyExists ? (
-        <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
-          <StarIcon className="w-12 h-12 text-yellow-400 mb-4" />
-          <p className="text-brand-text font-semibold mb-2">Unlock with Pro!</p>
-          <p className="text-brand-text-muted text-sm mb-4">
-            Upgrade to Pro to access the GiiT AI Assistant.
-          </p>
-          <button
-            onClick={() => {
-              setIsGoProModalOpen(true);
-            }}
-            className="px-6 py-2 bg-gradient-purple-pink text-white text-sm font-semibold rounded-lg shadow-md hover:shadow-glow-pink transition-all"
-          >
-            Upgrade to Pro
-          </button>
-        </div>
-      ) : (
+      
         <div className="flex-1 overflow-y-auto p-3 space-y-2.5 scrollbar-thin scrollbar-thumb-brand-border scrollbar-track-transparent">
           {messages.map((msg) => (
             <ChatMessage
