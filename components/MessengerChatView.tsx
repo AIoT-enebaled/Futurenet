@@ -24,7 +24,7 @@ import {
   XIcon,
 } from "./icons";
 import { MOCK_MESSENGER_USERS, BOT_AVATAR_URL } from "../constants";
-import { generateBotResponse } from "../services/geminiService";
+import { generateBotResponse } from "../services/aiService";
 import { useNavigate } from "react-router-dom";
 import {
   realtimeMessaging,
