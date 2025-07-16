@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ChatMessage, GroundingMetadata } from "../types";
+import { generateMockResponse, checkMockApiKey } from "./mockAiService";
 
 const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
