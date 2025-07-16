@@ -46,21 +46,12 @@ const Layout: React.FC<LayoutProps> = ({
           aria-label={
             isChatWidgetOpen ? "Close GiiT AI Chat" : "Open GiiT AI Chat"
           }
-          title={
-            isChatWidgetOpen
-              ? "Close GiiT AI Chat"
-              : currentUser?.is_pro_user
-                ? "Open GiiT AI Chat"
-                : "Upgrade to Pro for GiiT AI"
-          }
+          title={isChatWidgetOpen ? "Close GiiT AI Chat" : "Open GiiT AI Chat"}
         >
           {isChatWidgetOpen ? (
             <XIcon className="w-6 h-6" />
           ) : (
             <MessageSquareIcon className="w-6 h-6" />
-          )}
-          {!currentUser?.is_pro_user && (
-            <StarIcon className="w-3 h-3 fill-yellow-400 text-yellow-500 absolute -top-1 -right-1" />
           )}
         </button>
       )}
