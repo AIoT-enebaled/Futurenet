@@ -82,9 +82,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
         return;
       }
 
-      if (!apiKeyExists || !currentUser || !currentUser.is_pro_user) {
-        // Not Pro
-        setIsGoProModalOpen(true);
+      if (!apiKeyExists || !currentUser) {
         return;
       }
 
