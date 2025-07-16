@@ -75,6 +75,40 @@ const InstructorDashboardPage: React.FC<InstructorDashboardPageProps> = ({
       course.instructorId === (currentUser.instructorId || currentUser.id),
   );
 
+  // Mock live classes data
+  const [liveClasses, setLiveClasses] = useState([
+    {
+      id: "class-1",
+      courseId: instructorCourses[0]?.id || "course-1",
+      title: "React Hooks Deep Dive",
+      description: "Live discussion and Q&A about React Hooks",
+      instructorId: currentUser.instructorId || currentUser.id,
+      scheduledAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
+      durationMinutes: 90,
+      status: "scheduled" as const,
+      maxAttendees: 50,
+      attendees: [],
+      isRecorded: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "class-2",
+      courseId: instructorCourses[1]?.id || "course-2",
+      title: "JavaScript Fundamentals Live Session",
+      description: "Interactive coding session covering JS basics",
+      instructorId: currentUser.instructorId || currentUser.id,
+      scheduledAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
+      durationMinutes: 60,
+      status: "scheduled" as const,
+      maxAttendees: 30,
+      attendees: [],
+      isRecorded: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ]);
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
