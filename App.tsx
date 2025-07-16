@@ -535,6 +535,98 @@ const App: React.FC = () => {
     alert(`Course "${fullNewCourse.title}" created successfully!`);
   };
 
+  // Live Class Handlers
+  const handleScheduleClass = (
+    classData: Omit<
+      LiveClass,
+      "id" | "status" | "attendees" | "createdAt" | "updatedAt"
+    >,
+  ) => {
+    if (!currentUser || currentUser.role !== "instructor") {
+      alert("Only instructors can schedule classes.");
+      return;
+    }
+    const newClass: LiveClass = {
+      id: `class-${Date.now()}`,
+      ...classData,
+      status: "scheduled",
+      attendees: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    setLiveClasses((prev) => [newClass, ...prev]);
+    alert(`Live class "${newClass.title}" scheduled successfully!`);
+  };
+
+  const handleUpdateClassStatus = (
+    classId: string,
+    status: LiveClass["status"],
+  ) => {
+    setLiveClasses((prev) =>
+      prev.map((cls) =>
+        cls.id === classId
+          ? { ...cls, status, updatedAt: new Date().toISOString() }
+          : cls,
+      ),
+    );
+  };
+
+  const handleSendClassMessage = (
+    classId: string,
+    message: string,
+    targetUserId?: string,
+  ) => {
+    if (!currentUser) return;
+
+    const newMessage = {
+      id: `msg-${Date.now()}`,
+      userId: currentUser.id,
+      userName: currentUser.displayName,
+      message,
+      timestamp: new Date().toISOString(),
+      type: targetUserId ? ("private" as const) : ("text" as const),
+      targetUserId,
+    };
+
+    setLiveClasses((prev) =>
+      prev.map((cls) =>
+        cls.id === classId
+          ? {
+              ...cls,
+              chatMessages: [...(cls.chatMessages || []), newMessage],
+              updatedAt: new Date().toISOString(),
+            }
+          : cls,
+      ),
+    );
+  };
+
+  const handleUploadClassMaterial = (
+    classId: string,
+    material: Omit<ClassMaterial, "id" | "uploadedAt" | "uploadedBy">,
+  ) => {
+    if (!currentUser) return;
+
+    const newMaterial = {
+      id: `material-${Date.now()}`,
+      ...material,
+      uploadedAt: new Date().toISOString(),
+      uploadedBy: currentUser.id,
+    };
+
+    setLiveClasses((prev) =>
+      prev.map((cls) =>
+        cls.id === classId
+          ? {
+              ...cls,
+              materials: [...(cls.materials || []), newMaterial],
+              updatedAt: new Date().toISOString(),
+            }
+          : cls,
+      ),
+    );
+  };
+
   return (
     <HashRouter>
       <Routes>
