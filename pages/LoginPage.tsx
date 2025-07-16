@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { User } from "../types";
 import { LogInIcon } from "../components/icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../services/firebase";
+import { auth } from "../src/services/firebase";
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
