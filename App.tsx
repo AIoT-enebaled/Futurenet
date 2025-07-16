@@ -727,7 +727,7 @@ const App: React.FC = () => {
             path="/login"
             element={
               !currentUser ? (
-                <LoginPage onLogin={handleLogin} auth={auth} />
+                <LoginPage onLogin={handleLogin} />
               ) : (
                 <Navigate
                   to={
@@ -744,7 +744,7 @@ const App: React.FC = () => {
             path="/register"
             element={
               !currentUser ? (
-                <RegisterPage onRegister={handleRegister} auth={auth} />
+                <RegisterPage onRegister={handleRegister} />
               ) : (
                 <Navigate to="/profile" replace />
               )
