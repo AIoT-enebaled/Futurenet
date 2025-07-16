@@ -169,7 +169,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
             groundingMetadata={groundingMetadatas[msg.id]}
           />
         ))}
-        {isLoading && apiKeyExists && currentUser?.is_pro_user && (
+        {isLoading && apiKeyExists && currentUser && (
           <div className="flex justify-start mb-4">
             <div className="flex items-end gap-2.5">
               <img
