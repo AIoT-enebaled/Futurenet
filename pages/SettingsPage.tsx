@@ -885,9 +885,131 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         );
       case "integrations":
         return (
-          <div className="text-brand-text-muted">
-            App integrations (Google, GitHub, etc.) will be here. Mock UI for
-            now.
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <Link2Icon className="w-5 h-5 mr-2 text-brand-purple" />
+                Connected Services
+              </h3>
+              <p className="text-brand-text-muted mb-6">
+                Connect your GiiT account with external services to enhance your
+                workflow.
+              </p>
+
+              <div className="space-y-4">
+                {Object.entries({
+                  google: {
+                    name: "Google",
+                    icon: "🔍",
+                    desc: "Sync with Google Calendar and Drive",
+                  },
+                  github: {
+                    name: "GitHub",
+                    icon: "📂",
+                    desc: "Import repositories and sync code changes",
+                  },
+                  slack: {
+                    name: "Slack",
+                    icon: "💬",
+                    desc: "Receive GiiT notifications in Slack",
+                  },
+                  discord: {
+                    name: "Discord",
+                    icon: "🎮",
+                    desc: "Share activities with your Discord server",
+                  },
+                }).map(([key, service]) => (
+                  <div
+                    key={key}
+                    className="flex items-center justify-between p-4 bg-brand-bg rounded-lg border border-brand-border/40"
+                  >
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-3">{service.icon}</span>
+                      <div>
+                        <p className="text-sm font-medium text-brand-text">
+                          {service.name}
+                        </p>
+                        <p className="text-xs text-brand-text-muted">
+                          {service.desc}
+                        </p>
+                        {connectedServices[
+                          key as keyof typeof connectedServices
+                        ] && (
+                          <p className="text-xs text-green-400 mt-1">
+                            ✓ Connected
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() =>
+                        handleServiceToggle(
+                          key as keyof typeof connectedServices,
+                        )
+                      }
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        connectedServices[key as keyof typeof connectedServices]
+                          ? "bg-red-600 hover:bg-red-700 text-white"
+                          : "bg-brand-purple hover:bg-brand-purple/80 text-white"
+                      }`}
+                    >
+                      {connectedServices[key as keyof typeof connectedServices]
+                        ? "Disconnect"
+                        : "Connect"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* API Keys */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <KeyIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                API Access
+              </h3>
+              <p className="text-brand-text-muted mb-4">
+                Generate API keys to integrate GiiT with your custom
+                applications.
+              </p>
+
+              <div className="space-y-4 max-w-md">
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm font-medium text-brand-text">
+                      Personal Access Token
+                    </p>
+                    <button className="text-brand-cyan hover:underline text-sm">
+                      Generate
+                    </button>
+                  </div>
+                  <p className="text-xs text-brand-text-muted">
+                    Use this token to authenticate API requests
+                  </p>
+                </div>
+
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm font-medium text-brand-text">
+                      Webhook URL
+                    </p>
+                    <button className="text-brand-cyan hover:underline text-sm">
+                      Configure
+                    </button>
+                  </div>
+                  <p className="text-xs text-brand-text-muted">
+                    Receive real-time notifications via webhooks
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <button className="text-brand-cyan hover:underline text-sm flex items-center">
+                  <GlobeIcon className="w-4 h-4 mr-1" />
+                  View API Documentation
+                </button>
+              </div>
+            </div>
           </div>
         );
       case "admin":
