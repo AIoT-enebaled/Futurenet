@@ -50,6 +50,7 @@ import {
   CourseInstructor,
   CourseCategory,
   LiveClass,
+  ClassMaterial,
 } from "./types";
 import { checkApiKey } from "./services/aiService";
 
