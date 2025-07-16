@@ -569,9 +569,113 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         );
       case "notifications":
         return (
-          <div className="text-brand-text-muted">
-            Notification preferences (mentions, messages, DMs) will be here.
-            Mock UI for now.
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <BellIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Notification Preferences
+              </h3>
+              <p className="text-brand-text-muted mb-6">
+                Choose what notifications you want to receive and how you want
+                to receive them.
+              </p>
+
+              <div className="space-y-4">
+                {Object.entries({
+                  mentions: "When someone mentions you",
+                  directMessages: "Direct messages",
+                  teamUpdates: "Team activity and updates",
+                  projectNotifications: "Project notifications",
+                  emailDigest: "Daily email digest",
+                  pushNotifications: "Push notifications",
+                  desktopNotifications: "Desktop notifications",
+                  messagePreview: "Show message previews",
+                }).map(([key, label]) => (
+                  <div
+                    key={key}
+                    className="flex items-center justify-between p-4 bg-brand-bg rounded-lg border border-brand-border/40"
+                  >
+                    <div>
+                      <p className="text-sm font-medium text-brand-text">
+                        {label}
+                      </p>
+                      <p className="text-xs text-brand-text-muted">
+                        {key === "mentions" &&
+                          "Get notified when someone @mentions you in chat or comments"}
+                        {key === "directMessages" &&
+                          "Receive notifications for new direct messages"}
+                        {key === "teamUpdates" &&
+                          "Stay updated on team member activities and status changes"}
+                        {key === "projectNotifications" &&
+                          "Get notified about project updates and assignments"}
+                        {key === "emailDigest" &&
+                          "Receive a daily summary of important activities via email"}
+                        {key === "pushNotifications" &&
+                          "Receive push notifications on mobile devices"}
+                        {key === "desktopNotifications" &&
+                          "Show desktop notifications when the app is in background"}
+                        {key === "messagePreview" &&
+                          "Show message content in notification previews"}
+                      </p>
+                    </div>
+                    <label
+                      htmlFor={`notif-${key}`}
+                      className="relative inline-flex items-center cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        id={`notif-${key}`}
+                        className="sr-only peer"
+                        checked={
+                          notificationSettings[
+                            key as keyof typeof notificationSettings
+                          ]
+                        }
+                        onChange={() =>
+                          handleNotificationToggle(
+                            key as keyof typeof notificationSettings,
+                          )
+                        }
+                      />
+                      <div className="w-11 h-6 bg-brand-border peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand-purple rounded-full peer dark:bg-brand-border peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-brand-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-brand-border peer-checked:bg-brand-purple"></div>
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Notification Schedule */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <ClockIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Quiet Hours
+              </h3>
+              <p className="text-brand-text-muted mb-4">
+                Set specific hours when you don't want to receive notifications.
+              </p>
+              <div className="flex items-center space-x-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium text-brand-text-muted mb-1">
+                    From
+                  </label>
+                  <input
+                    type="time"
+                    defaultValue="22:00"
+                    className={commonInputStyles}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-brand-text-muted mb-1">
+                    To
+                  </label>
+                  <input
+                    type="time"
+                    defaultValue="08:00"
+                    className={commonInputStyles}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         );
       case "privacy":
