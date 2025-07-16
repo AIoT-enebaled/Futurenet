@@ -382,6 +382,7 @@ export const MessengerPage: React.FC<MessengerPageProps> = ({
             isLoading={isLoading}
             isMobileView={isMobileView}
             allMessages={allMessages}
+            chats={chats}
           />
         </main>
       )}
