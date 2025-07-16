@@ -64,7 +64,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           type="button"
           title={
             !canInteract
-              ? "Upgrade to Pro to attach files"
+              ? "Log in to attach files"
               : "Attach file (feature coming soon)"
           }
           className="p-2.5 rounded-full text-brand-text-muted hover:text-brand-cyan hover:bg-brand-surface-alt disabled:text-brand-text-darker disabled:cursor-not-allowed transition-colors"
