@@ -90,9 +90,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
         ]);
         return;
       }
-      if (!apiKeyExists || !currentUser || !currentUser.is_pro_user) {
-        // Check for pro user
-        setIsGoProModalOpen(true);
+      if (!apiKeyExists || !currentUser) {
         return;
       }
 
