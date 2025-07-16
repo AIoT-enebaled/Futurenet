@@ -1,26 +1,30 @@
-
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import GlobalChatWidget from './GlobalChatWidget'; 
-import GoProModal from './GoProModal'; // New import
-import { User, SubscriptionTier } from '../types';
-import { MessageSquareIcon, XIcon, StarIcon } from './icons'; 
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import GlobalChatWidget from "./GlobalChatWidget";
+import GoProModal from "./GoProModal"; // New import
+import { User, SubscriptionTier } from "../types";
+import { MessageSquareIcon, XIcon, StarIcon } from "./icons";
 
 interface LayoutProps {
   currentUser: User | null;
   onLogout: () => void;
-  apiKeyExists: boolean; 
+  apiKeyExists: boolean;
   onSubscribePro: (tier: SubscriptionTier) => void; // New prop
 }
 
-const Layout: React.FC<LayoutProps> = ({ currentUser, onLogout, apiKeyExists, onSubscribePro }) => {
+const Layout: React.FC<LayoutProps> = ({
+  currentUser,
+  onLogout,
+  apiKeyExists,
+  onSubscribePro,
+}) => {
   const [isChatWidgetOpen, setIsChatWidgetOpen] = useState(false);
   const [isGoProModalOpen, setIsGoProModalOpen] = useState(false);
 
   const handleToggleChatWidget = () => {
-    if (!currentUser?.is_pro_user && apiKeyExists) {
-      setIsGoProModalOpen(true);
+    if (!currentUser && apiKeyExists) {
+      alert("Please log in to use the AI Assistant.");
     } else if (apiKeyExists) {
       setIsChatWidgetOpen(!isChatWidgetOpen);
     } else {
@@ -41,10 +45,22 @@ const Layout: React.FC<LayoutProps> = ({ currentUser, onLogout, apiKeyExists, on
         <button
           onClick={handleToggleChatWidget}
           className="fixed bottom-6 right-6 bg-gradient-purple-pink text-white p-3.5 rounded-full shadow-xl hover:shadow-glow-pink focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 focus:ring-offset-brand-bg z-40 transition-all duration-300 ease-in-out hover:scale-110 active:scale-100 flex items-center"
-          aria-label={isChatWidgetOpen ? "Close GiiT AI Chat" : "Open GiiT AI Chat"}
-          title={isChatWidgetOpen ? "Close GiiT AI Chat" : (currentUser?.is_pro_user ? "Open GiiT AI Chat" : "Upgrade to Pro for GiiT AI")}
+          aria-label={
+            isChatWidgetOpen ? "Close GiiT AI Chat" : "Open GiiT AI Chat"
+          }
+          title={
+            isChatWidgetOpen
+              ? "Close GiiT AI Chat"
+              : currentUser?.is_pro_user
+                ? "Open GiiT AI Chat"
+                : "Upgrade to Pro for GiiT AI"
+          }
         >
-          {isChatWidgetOpen ? <XIcon className="w-6 h-6" /> : <MessageSquareIcon className="w-6 h-6" />}
+          {isChatWidgetOpen ? (
+            <XIcon className="w-6 h-6" />
+          ) : (
+            <MessageSquareIcon className="w-6 h-6" />
+          )}
           {!currentUser?.is_pro_user && (
             <StarIcon className="w-3 h-3 fill-yellow-400 text-yellow-500 absolute -top-1 -right-1" />
           )}
@@ -59,8 +75,8 @@ const Layout: React.FC<LayoutProps> = ({ currentUser, onLogout, apiKeyExists, on
           onSubscribePro={onSubscribePro} // Pass through
         />
       )}
-      
-      <GoProModal 
+
+      <GoProModal
         isOpen={isGoProModalOpen}
         onClose={() => setIsGoProModalOpen(false)}
         onSubscribe={onSubscribePro}
