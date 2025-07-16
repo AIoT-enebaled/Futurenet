@@ -24,8 +24,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
   if (apiKeyExists) {
     if (!currentUser) {
       placeholderText = "Please log in to chat with GiiT AI.";
-    } else if (!isProUser) {
-      placeholderText = "Upgrade to Pro to use GiiT AI Assistant.";
     } else {
       placeholderText = "Type your message to GiiT AI...";
     }
