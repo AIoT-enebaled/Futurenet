@@ -159,12 +159,6 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
         <h1 className="text-lg font-semibold text-brand-text">
           GiiT AI Assistant
         </h1>
-        {/* FIX: Wrapped StarIcon in a span to apply the title prop for accessibility */}
-        {currentUser?.is_pro_user && (
-          <span title="Pro Feature">
-            <StarIcon className="w-4 h-4 text-yellow-400" />
-          </span>
-        )}
       </header>
 
       <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2 scrollbar-thin scrollbar-thumb-brand-border scrollbar-track-transparent">
