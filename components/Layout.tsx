@@ -56,7 +56,7 @@ const Layout: React.FC<LayoutProps> = ({
         </button>
       )}
 
-      {isChatWidgetOpen && apiKeyExists && currentUser?.is_pro_user && (
+      {isChatWidgetOpen && apiKeyExists && currentUser && (
         <GlobalChatWidget
           currentUser={currentUser}
           apiKeyExists={apiKeyExists}
