@@ -194,7 +194,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
-      {error && apiKeyExists && currentUser?.is_pro_user && (
+      {error && apiKeyExists && currentUser && (
         <div className="p-2.5 bg-red-900/40 border-t border-red-700/40">
           <p className="text-red-300 text-xs text-center">{error}</p>
         </div>
