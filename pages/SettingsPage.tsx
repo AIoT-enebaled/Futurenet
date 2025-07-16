@@ -126,6 +126,75 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     });
   };
 
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setFeedbackMessage({ type: "error", text: "Passwords do not match!" });
+      return;
+    }
+    if (newPassword.length < 8) {
+      setFeedbackMessage({
+        type: "error",
+        text: "Password must be at least 8 characters long!",
+      });
+      return;
+    }
+    // Mock password change
+    setFeedbackMessage({
+      type: "success",
+      text: "Password changed successfully!",
+    });
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setTimeout(() => setFeedbackMessage(null), 3000);
+  };
+
+  const handleNotificationToggle = (key: keyof typeof notificationSettings) => {
+    setNotificationSettings((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handlePrivacyToggle = (
+    key: keyof typeof privacySettings,
+    value?: any,
+  ) => {
+    setPrivacySettings((prev) => ({
+      ...prev,
+      [key]: value !== undefined ? value : !prev[key],
+    }));
+  };
+
+  const handleServiceToggle = (service: keyof typeof connectedServices) => {
+    setConnectedServices((prev) => ({ ...prev, [service]: !prev[service] }));
+    setFeedbackMessage({
+      type: "success",
+      text: `${service} ${!connectedServices[service] ? "connected" : "disconnected"} successfully!`,
+    });
+    setTimeout(() => setFeedbackMessage(null), 3000);
+  };
+
+  const handleDataExport = () => {
+    setFeedbackMessage({
+      type: "success",
+      text: "Data export started! You will receive an email when ready.",
+    });
+    setTimeout(() => setFeedbackMessage(null), 3000);
+  };
+
+  const handleAccountDeletion = () => {
+    if (
+      confirm(
+        "Are you sure you want to delete your account? This action cannot be undone.",
+      )
+    ) {
+      setFeedbackMessage({
+        type: "error",
+        text: "Account deletion is not available in demo mode.",
+      });
+      setTimeout(() => setFeedbackMessage(null), 3000);
+    }
+  };
+
   const commonInputStyles =
     "block w-full px-3.5 py-2.5 bg-brand-bg border border-brand-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-brand-purple sm:text-sm text-brand-text placeholder-brand-text-muted transition-colors";
   const primaryButtonStyles =
