@@ -17,6 +17,7 @@ interface CourseCardProps {
   currentUser: User | null;
   isEnrolled: boolean;
   onEnrollClick: (course: Course) => void;
+  onPurchaseComplete?: (courseId: string, paymentMethod: string) => void;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({
@@ -24,13 +25,35 @@ const CourseCard: React.FC<CourseCardProps> = ({
   currentUser,
   isEnrolled,
   onEnrollClick,
+  onPurchaseComplete,
 }) => {
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const instructor = COURSE_INSTRUCTORS_DATA.find(
     (ins) => ins.id === course.instructorId,
   );
   const primaryCategory = COURSE_CATEGORIES_DATA.find(
     (cat) => cat.id === course.categoryIds[0],
   );
+
+  const handleEnrollClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (course.price > 0 && !isEnrolled && currentUser) {
+      setIsPaymentModalOpen(true);
+    } else {
+      onEnrollClick(course);
+    }
+  };
+
+  const handlePurchaseComplete = (courseId: string, paymentMethod: string) => {
+    setIsPaymentModalOpen(false);
+    if (onPurchaseComplete) {
+      onPurchaseComplete(courseId, paymentMethod);
+    } else {
+      onEnrollClick(course);
+    }
+  };
 
   return (
     <div className="bg-brand-surface rounded-xl shadow-xl overflow-hidden transition-all duration-300 ease-in-out hover:shadow-glow-cyan transform hover:-translate-y-1.5 border border-brand-border/30 hover:border-brand-cyan/40 flex flex-col h-full">
