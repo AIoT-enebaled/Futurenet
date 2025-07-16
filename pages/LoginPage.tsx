@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "../types";
 import { LogInIcon } from "../components/icons";
-import { signInWithEmailAndPassword } from "../services/mockAuthService";
+import {
+  signInWithEmailAndPassword,
+  mockAuth,
+} from "../services/mockAuthService";
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
