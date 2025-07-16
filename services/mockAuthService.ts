@@ -167,6 +167,12 @@ class MockAuthService {
     return this.currentUser;
   }
 
+  // Force reinitialize demo users (for testing)
+  forceReinitialize(): void {
+    localStorage.removeItem("mockUsers");
+    this.initialize();
+  }
+
   // Ensure initialization has run
   private ensureInitialized(): void {
     if (this.getStoredUsers().length === 0) {
