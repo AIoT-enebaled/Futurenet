@@ -14,9 +14,9 @@ const MOCK_RESPONSES = [
 
 const CONTEXT_RESPONSES: Record<string, string[]> = {
   greeting: [
-    "Hello! Welcome to GiiT! I'm currently in demo mode, but I'm excited to help you explore our community platform. ✨",
-    "Hi there! Great to see you on GiiT. While I'm running in demo mode, I can still help you navigate and learn about our features!",
-    "Welcome! I'm GiiT AI Assistant. Currently in demo mode, but ready to help you get started with our community and learning platform.",
+    "Hello! Welcome to GiiT - the Genius Institute of Information Technology! 🎓 I'm currently in demo mode due to temporary API billing, but I'm excited to help you explore our amazing community platform. What would you like to know about?",
+    "Hi there! Great to see you on GiiT! ✨ While I'm running in demo mode temporarily, I can help you discover our courses, join discussions, find teams, and make the most of our learning community!",
+    "Welcome to GiiT! I'm your AI Assistant, currently operating in demo mode while we resolve some API billing. Ready to help you navigate our courses, community features, and learning resources!",
   ],
   help: [
     "I'd love to help! While I'm in demo mode, I can guide you through GiiT's features: courses, community discussions, projects, and messaging.",
