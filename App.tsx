@@ -72,6 +72,46 @@ const App: React.FC = () => {
 
   // Learning Platform State
   const [courses, setCourses] = useState<Course[]>(COURSES_DATA);
+  const [liveClasses, setLiveClasses] = useState<LiveClass[]>([
+    {
+      id: "class-1",
+      courseId: "course-1",
+      title: "React Hooks Deep Dive",
+      description:
+        "Live discussion and Q&A about React Hooks with hands-on examples",
+      instructorId: "instructor-1",
+      scheduledAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      durationMinutes: 90,
+      status: "scheduled",
+      maxAttendees: 50,
+      attendees: [],
+      recordings: [],
+      materials: [],
+      chatMessages: [],
+      isRecorded: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: "class-2",
+      courseId: "course-2",
+      title: "JavaScript Fundamentals Live Session",
+      description:
+        "Interactive coding session covering JS basics and best practices",
+      instructorId: "instructor-2",
+      scheduledAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+      durationMinutes: 60,
+      status: "scheduled",
+      maxAttendees: 30,
+      attendees: [],
+      recordings: [],
+      materials: [],
+      chatMessages: [],
+      isRecorded: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ]);
   const [purchasedCourses, setPurchasedCourses] = useState<string[]>(() => {
     const stored = localStorage.getItem("giitPurchasedCourses");
     return stored ? JSON.parse(stored) : [];
