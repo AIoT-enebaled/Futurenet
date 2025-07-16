@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "../types";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../services/firebase";
+import { auth } from "../src/services/firebase";
 import { UserCircleIcon } from "../components/icons";
 
 interface RegisterPageProps {
