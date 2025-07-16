@@ -31,14 +31,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         displayName: user.displayName,
         username: user.displayName.toLowerCase().replace(/\s+/g, ""),
         avatarUrl: user.photoURL || undefined,
-        role: user.email === "admin@example.com" ? "admin" : "member",
-        is_pro_user: user.email === "admin@example.com",
+        role:
+          user.email === "walkerchristopherr549@gmail.com" ? "admin" : "member",
+        is_pro_user: user.email === "walkerchristopherr549@gmail.com",
         pro_expiry_date:
-          user.email === "admin@example.com"
+          user.email === "walkerchristopherr549@gmail.com"
             ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
             : null,
         subscribed_tier:
-          user.email === "admin@example.com" ? "pro_individual" : "free",
+          user.email === "walkerchristopherr549@gmail.com"
+            ? "pro_individual"
+            : "free",
       };
 
       onLogin(userToLogin);
