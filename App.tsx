@@ -48,7 +48,7 @@ import {
   CourseInstructor,
   CourseCategory,
 } from "./types";
-import { checkApiKey } from "./services/geminiService";
+import { checkApiKey } from "./services/aiService";
 
 const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
