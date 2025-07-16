@@ -159,11 +159,6 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
           <h2 className="text-md font-semibold text-brand-text">
             GiiT AI Assistant
           </h2>
-          {currentUser?.is_pro_user && (
-            <span title="Pro Feature">
-              <StarIcon className="w-3.5 h-3.5 text-yellow-400" />
-            </span>
-          )}
         </div>
         <button
           onClick={onClose}
