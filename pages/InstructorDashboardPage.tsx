@@ -374,6 +374,13 @@ const InstructorDashboardPage: React.FC<InstructorDashboardPageProps> = ({
               Create Course
             </button>
             <button
+              onClick={() => setActiveTab("live-classes")}
+              className={`${tabButtonStyles} ${activeTab === "live-classes" ? activeTabButtonStyles : inactiveTabButtonStyles}`}
+            >
+              <VideoIcon className="w-5 h-5 mr-3" />
+              Live Classes
+            </button>
+            <button
               onClick={() => setActiveTab("analytics")}
               className={`${tabButtonStyles} ${activeTab === "analytics" ? activeTabButtonStyles : inactiveTabButtonStyles}`}
             >
