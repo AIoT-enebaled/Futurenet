@@ -61,7 +61,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
             ],
       );
     } else if (
-      currentUser?.is_pro_user &&
+      currentUser &&
       (messages.length === 0 ||
         (messages.length === 1 && messages[0].id === "system-error-apikey"))
     ) {
