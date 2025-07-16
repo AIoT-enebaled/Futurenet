@@ -250,10 +250,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
           <button
             type="submit"
             disabled={
-              !apiKeyExists ||
-              isLoading ||
-              !inputValue.trim() ||
-              !currentUser?.is_pro_user
+              !apiKeyExists || isLoading || !inputValue.trim() || !currentUser
             }
             className="p-2 text-brand-purple hover:text-brand-pink rounded-full disabled:text-brand-text-darker disabled:cursor-not-allowed transition-colors transform hover:scale-110 active:scale-100"
             aria-label="Send message to GiiT AI Assistant"
