@@ -10,7 +10,7 @@ import {
   User,
   SubscriptionTier,
 } from "../types";
-import { generateBotResponse, checkApiKey } from "../services/geminiService";
+import { generateBotResponse, checkApiKey } from "../services/aiService";
 import { BOT_AVATAR_URL } from "../constants";
 import { MessageSquareIcon, StarIcon } from "../components/icons";
 
