@@ -45,7 +45,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
     setApiKeyExists(keyStatus);
     if (!keyStatus) {
       setError(
-        "Gemini API Key is not configured. Please set the API_KEY environment variable.",
+        "AI API Key is not configured. Please set the API_KEY environment variable.",
       );
       setMessages((prev) =>
         prev.some((m) => m.id === "system-error-apikey")
@@ -54,7 +54,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
               ...prev,
               {
                 id: "system-error-apikey",
-                text: "I'm unable to connect right now. The API key for Gemini is missing. Please contact an administrator.",
+                text: "I'm unable to connect right now. The AI service is unavailable. Please contact an administrator.",
                 sender: "system",
                 timestamp: new Date(),
               },
