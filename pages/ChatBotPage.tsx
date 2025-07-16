@@ -90,9 +90,19 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
         ]);
         return;
       }
-      if (!apiKeyExists || !currentUser || !currentUser.is_pro_user) {
-        // Check for pro user
-        setIsGoProModalOpen(true);
+      if (!apiKeyExists || !currentUser) {
+        // Just check for logged in user, no Pro requirement
+        if (!currentUser) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `bot-login-prompt-${Date.now()}`,
+              text: "Please log in to use the AI chat feature.",
+              sender: "bot",
+              timestamp: new Date(),
+            },
+          ]);
+        }
         return;
       }
 
