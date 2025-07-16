@@ -20,6 +20,9 @@ class MockAuthService {
     email: string,
     password: string,
   ): Promise<MockUserCredential> {
+    // Ensure initialization has run
+    this.ensureInitialized();
+
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -30,6 +33,10 @@ class MockAuthService {
     );
 
     if (!user) {
+      console.error(
+        "User not found. Available users:",
+        storedUsers.map((u) => u.email),
+      );
       throw new Error("auth/user-not-found");
     }
 
