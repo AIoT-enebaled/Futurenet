@@ -680,9 +680,207 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         );
       case "privacy":
         return (
-          <div className="text-brand-text-muted">
-            Privacy settings (who can see profile, send messages, block users)
-            will be here. Mock UI for now.
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <ShieldIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Privacy Settings
+              </h3>
+              <p className="text-brand-text-muted mb-6">
+                Control who can see your information and how others can interact
+                with you.
+              </p>
+
+              <div className="space-y-6">
+                {/* Profile Visibility */}
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <h4 className="text-sm font-medium text-brand-text mb-2">
+                    Profile Visibility
+                  </h4>
+                  <p className="text-xs text-brand-text-muted mb-3">
+                    Who can view your profile information
+                  </p>
+                  <div className="space-y-2">
+                    {[
+                      {
+                        value: "public",
+                        label: "Public",
+                        desc: "Anyone can view your profile",
+                      },
+                      {
+                        value: "team",
+                        label: "Team Only",
+                        desc: "Only team members can view your profile",
+                      },
+                      {
+                        value: "private",
+                        label: "Private",
+                        desc: "Only you can view your profile",
+                      },
+                    ].map((option) => (
+                      <label
+                        key={option.value}
+                        className="flex items-center p-2 rounded cursor-pointer hover:bg-brand-surface-alt"
+                      >
+                        <input
+                          type="radio"
+                          name="profileVisibility"
+                          value={option.value}
+                          checked={
+                            privacySettings.profileVisibility === option.value
+                          }
+                          onChange={() =>
+                            handlePrivacyToggle(
+                              "profileVisibility",
+                              option.value,
+                            )
+                          }
+                          className="mr-3 text-brand-purple focus:ring-brand-purple"
+                        />
+                        <div>
+                          <p className="text-sm text-brand-text">
+                            {option.label}
+                          </p>
+                          <p className="text-xs text-brand-text-muted">
+                            {option.desc}
+                          </p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Direct Messages */}
+                <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40">
+                  <h4 className="text-sm font-medium text-brand-text mb-2">
+                    Direct Messages
+                  </h4>
+                  <p className="text-xs text-brand-text-muted mb-3">
+                    Who can send you direct messages
+                  </p>
+                  <div className="space-y-2">
+                    {[
+                      {
+                        value: "everyone",
+                        label: "Everyone",
+                        desc: "Anyone can send you messages",
+                      },
+                      {
+                        value: "team",
+                        label: "Team Only",
+                        desc: "Only team members can message you",
+                      },
+                      {
+                        value: "none",
+                        label: "No One",
+                        desc: "Block all direct messages",
+                      },
+                    ].map((option) => (
+                      <label
+                        key={option.value}
+                        className="flex items-center p-2 rounded cursor-pointer hover:bg-brand-surface-alt"
+                      >
+                        <input
+                          type="radio"
+                          name="allowDirectMessages"
+                          value={option.value}
+                          checked={
+                            privacySettings.allowDirectMessages === option.value
+                          }
+                          onChange={() =>
+                            handlePrivacyToggle(
+                              "allowDirectMessages",
+                              option.value,
+                            )
+                          }
+                          className="mr-3 text-brand-purple focus:ring-brand-purple"
+                        />
+                        <div>
+                          <p className="text-sm text-brand-text">
+                            {option.label}
+                          </p>
+                          <p className="text-xs text-brand-text-muted">
+                            {option.desc}
+                          </p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Activity Indicators */}
+                <div className="space-y-4">
+                  {Object.entries({
+                    onlineStatus: "Show online status",
+                    readReceipts: "Send read receipts",
+                    typingIndicators: "Show typing indicators",
+                    searchable: "Allow others to find you in search",
+                  }).map(([key, label]) => (
+                    <div
+                      key={key}
+                      className="flex items-center justify-between p-4 bg-brand-bg rounded-lg border border-brand-border/40"
+                    >
+                      <div>
+                        <p className="text-sm font-medium text-brand-text">
+                          {label}
+                        </p>
+                        <p className="text-xs text-brand-text-muted">
+                          {key === "onlineStatus" &&
+                            "Let others see when you're online or away"}
+                          {key === "readReceipts" &&
+                            "Send confirmation when you've read messages"}
+                          {key === "typingIndicators" &&
+                            "Show others when you're typing a message"}
+                          {key === "searchable" &&
+                            "Allow your profile to appear in user search results"}
+                        </p>
+                      </div>
+                      <label
+                        htmlFor={`privacy-${key}`}
+                        className="relative inline-flex items-center cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          id={`privacy-${key}`}
+                          className="sr-only peer"
+                          checked={
+                            privacySettings[
+                              key as keyof typeof privacySettings
+                            ] as boolean
+                          }
+                          onChange={() =>
+                            handlePrivacyToggle(
+                              key as keyof typeof privacySettings,
+                            )
+                          }
+                        />
+                        <div className="w-11 h-6 bg-brand-border peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand-purple rounded-full peer dark:bg-brand-border peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-brand-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-brand-border peer-checked:bg-brand-purple"></div>
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Blocked Users */}
+            <div className="border-t border-brand-border/30 pt-8">
+              <h3 className="text-lg font-semibold text-brand-text mb-4 flex items-center">
+                <UserCircleIcon className="w-5 h-5 mr-2 text-brand-purple" />
+                Blocked Users
+              </h3>
+              <p className="text-brand-text-muted mb-4">
+                Users you've blocked will not be able to message you or see your
+                profile.
+              </p>
+              <div className="p-4 bg-brand-bg rounded-lg border border-brand-border/40 text-center">
+                <p className="text-sm text-brand-text-muted">
+                  No blocked users
+                </p>
+                <button className="mt-2 text-brand-cyan hover:underline text-sm">
+                  Manage blocked users
+                </button>
+              </div>
+            </div>
           </div>
         );
       case "integrations":
