@@ -49,6 +49,7 @@ import {
   CoursePurchase,
   CourseInstructor,
   CourseCategory,
+  LiveClass,
 } from "./types";
 import { checkApiKey } from "./services/aiService";
 
