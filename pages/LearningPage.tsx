@@ -205,6 +205,7 @@ const LearningPage: React.FC<LearningPageProps> = ({
               currentUser={currentUser}
               isEnrolled={purchasedCourses.includes(course.id)}
               onEnrollClick={() => handleEnrollClick(course)}
+              onPurchaseComplete={handlePurchaseComplete}
             />
           ))}
         </div>
