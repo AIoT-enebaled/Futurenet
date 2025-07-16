@@ -134,27 +134,28 @@ export const generateBotResponse = async (
       const status = error.response.status;
       const errorData = error.response.data;
 
-      if (status === 401) {
-        throw new Error(
-          "Invalid DeepSeek API Key. Please check your configuration.",
+      // For billing issues (402), insufficient balance, or other API errors, fall back to mock
+      if (status === 402 || status === 401 || status === 429 || status >= 500) {
+        console.log(
+          `DeepSeek API error (${status}), falling back to mock AI service`,
         );
-      } else if (status === 429) {
-        throw new Error("Rate limit exceeded. Please try again in a moment.");
+        return await generateMockResponse(prompt, chatHistory);
       } else if (status === 400) {
         throw new Error("Invalid request. Please try rephrasing your message.");
       } else {
-        throw new Error(
-          `DeepSeek API error (${status}): ${errorData?.error?.message || "Unknown error"}`,
+        console.log(
+          `DeepSeek API error (${status}), falling back to mock AI service`,
         );
+        return await generateMockResponse(prompt, chatHistory);
       }
     } else if (error.request) {
-      throw new Error(
-        "Unable to reach DeepSeek API. Please check your internet connection.",
+      console.log(
+        "Unable to reach DeepSeek API, falling back to mock AI service",
       );
+      return await generateMockResponse(prompt, chatHistory);
     } else {
-      throw new Error(
-        `Failed to get response from AI: ${error.message || "Unknown error"}`,
-      );
+      console.log("DeepSeek API error, falling back to mock AI service");
+      return await generateMockResponse(prompt, chatHistory);
     }
   }
 };
