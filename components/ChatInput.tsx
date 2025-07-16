@@ -64,16 +64,13 @@ const ChatInput: React.FC<ChatInputProps> = ({
           type="button"
           title={
             !canInteract
-              ? "Upgrade to Pro to attach files"
+              ? "Log in to attach files"
               : "Attach file (feature coming soon)"
           }
           className="p-2.5 rounded-full text-brand-text-muted hover:text-brand-cyan hover:bg-brand-surface-alt disabled:text-brand-text-darker disabled:cursor-not-allowed transition-colors"
           disabled={!canInteract || isLoading}
         >
           <PaperclipIcon className="w-5 h-5" />
-          {!isProUser && currentUser && (
-            <StarIcon className="w-2.5 h-2.5 absolute bottom-1 right-1 text-yellow-400" />
-          )}
         </button>
         <button
           type="button"
