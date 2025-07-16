@@ -63,6 +63,8 @@ export const generateBotResponse = async (
   console.log("Using mock AI service due to API billing issues");
   return await generateMockResponse(prompt, chatHistory);
 
+  // Temporarily disabled due to billing issues - keeping for when API is restored
+  /*
   try {
     // Convert chat history to DeepSeek format
     const messages: DeepSeekMessage[] = [
@@ -162,6 +164,7 @@ export const generateBotResponse = async (
       return await generateMockResponse(prompt, chatHistory);
     }
   }
+  */
 };
 
 // For backwards compatibility with existing image generation calls
