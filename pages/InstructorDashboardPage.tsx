@@ -447,6 +447,163 @@ const InstructorDashboardPage: React.FC<InstructorDashboardPageProps> = ({
                 )}
               </div>
             )}
+
+            {activeTab === "live-classes" && (
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-semibold text-brand-text">
+                    Live Classes ({liveClasses.length})
+                  </h2>
+                  <button
+                    onClick={() =>
+                      alert("Schedule class functionality would open modal")
+                    }
+                    className="flex items-center px-4 py-2 bg-gradient-to-r from-brand-purple to-brand-pink text-white font-semibold rounded-lg shadow-lg hover:shadow-glow-pink transition-all duration-300 transform hover:scale-105"
+                  >
+                    <CalendarIcon className="w-4 h-4 mr-2" />
+                    Schedule Class
+                  </button>
+                </div>
+
+                {liveClasses.length > 0 ? (
+                  <div className="space-y-4">
+                    {liveClasses.map((liveClass) => {
+                      const course = instructorCourses.find(
+                        (c) => c.id === liveClass.courseId,
+                      );
+                      const scheduledDate = new Date(liveClass.scheduledAt);
+                      const isUpcoming = scheduledDate > new Date();
+
+                      return (
+                        <div
+                          key={liveClass.id}
+                          className="p-6 bg-brand-bg rounded-lg border border-brand-border/40 hover:border-brand-purple/50 transition-colors"
+                        >
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-3 mb-2">
+                                <h3 className="text-lg font-semibold text-brand-text">
+                                  {liveClass.title}
+                                </h3>
+                                <span
+                                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                    liveClass.status === "scheduled" &&
+                                    isUpcoming
+                                      ? "bg-blue-500/20 text-blue-400"
+                                      : liveClass.status === "live"
+                                        ? "bg-red-500/20 text-red-400"
+                                        : liveClass.status === "completed"
+                                          ? "bg-green-500/20 text-green-400"
+                                          : "bg-gray-500/20 text-gray-400"
+                                  }`}
+                                >
+                                  {liveClass.status === "scheduled" &&
+                                    isUpcoming &&
+                                    "📅 Scheduled"}
+                                  {liveClass.status === "live" && "🔴 Live"}
+                                  {liveClass.status === "completed" &&
+                                    "✅ Completed"}
+                                  {liveClass.status === "scheduled" &&
+                                    !isUpcoming &&
+                                    "⏰ Past"}
+                                </span>
+                              </div>
+
+                              <p className="text-brand-text-muted mb-3">
+                                {liveClass.description}
+                              </p>
+
+                              <div className="flex flex-wrap items-center gap-4 text-sm text-brand-text-darker">
+                                <span className="flex items-center">
+                                  <ListTreeIcon className="w-4 h-4 mr-1 text-brand-cyan" />
+                                  {course?.title || "Unknown Course"}
+                                </span>
+                                <span className="flex items-center">
+                                  <CalendarIcon className="w-4 h-4 mr-1 text-brand-cyan" />
+                                  {scheduledDate.toLocaleDateString()}
+                                </span>
+                                <span className="flex items-center">
+                                  <ClockIcon className="w-4 h-4 mr-1 text-brand-cyan" />
+                                  {scheduledDate.toLocaleTimeString([], {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                </span>
+                                <span className="flex items-center">
+                                  <ClockIcon className="w-4 h-4 mr-1 text-brand-cyan" />
+                                  {liveClass.durationMinutes} min
+                                </span>
+                                <span className="flex items-center">
+                                  <UsersIcon className="w-4 h-4 mr-1 text-brand-cyan" />
+                                  {liveClass.attendees.length}/
+                                  {liveClass.maxAttendees} attendees
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center space-x-2 ml-4">
+                              {liveClass.status === "scheduled" &&
+                                isUpcoming && (
+                                  <button
+                                    onClick={() =>
+                                      alert("Start live class functionality")
+                                    }
+                                    className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                                  >
+                                    Start Class
+                                  </button>
+                                )}
+                              {liveClass.status === "live" && (
+                                <button
+                                  onClick={() =>
+                                    alert("Join live class functionality")
+                                  }
+                                  className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium animate-pulse"
+                                >
+                                  Join Live
+                                </button>
+                              )}
+                              <button
+                                onClick={() =>
+                                  alert("Edit class functionality")
+                                }
+                                className="p-2 text-brand-cyan hover:text-brand-pink rounded-full hover:bg-brand-surface-alt transition-colors"
+                                title="Edit Class"
+                              >
+                                <EditIcon className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  alert("Delete class functionality")
+                                }
+                                className="p-2 text-red-500 hover:text-red-400 rounded-full hover:bg-brand-surface-alt transition-colors"
+                                title="Cancel Class"
+                              >
+                                <Trash2Icon className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <VideoIcon className="w-16 h-16 text-brand-text-darker mx-auto mb-4" />
+                    <p className="text-brand-text-muted mb-4">
+                      No live classes scheduled yet
+                    </p>
+                    <button
+                      onClick={() => alert("Schedule class functionality")}
+                      className="px-6 py-2 bg-gradient-to-r from-brand-purple to-brand-pink text-white font-semibold rounded-lg shadow-lg hover:shadow-glow-pink transition-all duration-300 transform hover:scale-105"
+                    >
+                      Schedule Your First Class
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
             {activeTab === "analytics" && (
               <div>
                 <h2 className="text-2xl font-semibold text-brand-text mb-5">
