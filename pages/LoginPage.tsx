@@ -113,6 +113,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               User Login
             </button>
           </div>
+          <button
+            onClick={() => {
+              mockAuth.forceReinitialize();
+              alert("Demo users reinitialized! Try logging in again.");
+            }}
+            className="w-full px-3 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+          >
+            Reset Demo Users
+          </button>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
