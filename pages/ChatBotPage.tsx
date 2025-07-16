@@ -164,29 +164,23 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
     );
   }
 
-  if (!currentUser?.is_pro_user && apiKeyExists) {
+  if (!currentUser && apiKeyExists) {
     return (
       <div className="flex flex-col items-center justify-center h-[calc(100vh-8rem)] text-center p-8 bg-brand-surface rounded-xl shadow-xl border border-brand-border/30">
-        <StarIcon className="w-16 h-16 text-yellow-400 mb-6" />
+        <MessageSquareIcon className="w-16 h-16 text-brand-purple mb-6" />
         <h1 className="text-2xl font-bold text-brand-text mb-3">
-          Unlock GiiT AI Assistant
+          GiiT AI Assistant
         </h1>
         <p className="text-brand-text-muted mb-6 max-w-md">
-          Our powerful AI Assistant is a Pro feature. Upgrade your account to
-          get instant answers, generate content, and much more!
+          Please log in to start chatting with our AI assistant. It's free for
+          all users!
         </p>
-        <button
-          onClick={() => setIsGoProModalOpen(true)}
+        <Link
+          to="/login"
           className="px-8 py-3.5 bg-gradient-purple-pink text-white font-semibold rounded-lg shadow-xl hover:shadow-glow-pink transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 focus:ring-offset-brand-surface text-base md:text-lg"
         >
-          Upgrade to Pro
-        </button>
-        <GoProModal
-          isOpen={isGoProModalOpen}
-          onClose={() => setIsGoProModalOpen(false)}
-          onSubscribe={onSubscribePro}
-          featureName="GiiT AI Assistant"
-        />
+          Log In to Chat
+        </Link>
       </div>
     );
   }
