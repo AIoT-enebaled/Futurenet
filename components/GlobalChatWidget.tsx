@@ -52,7 +52,7 @@ const GlobalChatWidget: React.FC<GlobalChatWidgetProps> = ({
           timestamp: new Date(),
         },
       ]);
-    } else if (currentUser?.is_pro_user && messages.length === 0) {
+    } else if (currentUser && messages.length === 0) {
       // Only init welcome if pro
       setMessages([
         {
