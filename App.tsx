@@ -22,6 +22,8 @@ import LearningPage from "./pages/LearningPage"; // New
 import CoursePage from "./pages/CoursePage"; // New
 import MyCoursesPage from "./pages/MyCoursesPage"; // New
 import InstructorDashboardPage from "./pages/InstructorDashboardPage"; // New
+import LiveClassroomPage from "./pages/LiveClassroomPage"; // New
+import CoursesManagementPage from "./pages/CoursesManagementPage"; // New
 
 import {
   NAV_ITEMS,
