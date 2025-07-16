@@ -34,7 +34,7 @@ const InstructorDashboardPage: React.FC<InstructorDashboardPageProps> = ({
   onUpdateCourse,
 }) => {
   const [activeTab, setActiveTab] = useState<
-    "my-courses" | "create-course" | "analytics"
+    "my-courses" | "create-course" | "live-classes" | "analytics"
   >("my-courses");
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
